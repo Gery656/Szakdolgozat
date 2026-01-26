@@ -46,8 +46,8 @@
           "src": "./config/aid_list.xml",
           "androidDest": "app/src/main/res/xml/aid_list.xml"
         }
-      ]
-      //"react-native-nfc-manager"
+      ],
+      "react-native-nfc-manager"
     ],
     "experiments": {
       "typedRoutes": true,

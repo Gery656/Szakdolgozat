@@ -16,7 +16,15 @@ export function NfcEmulationPanel() {
 
 
         session.setApplication(tag);
-        await session.setEnabled(true);
+        try {
+            await session.setEnabled(true);
+        } catch (error) {
+             if (error instanceof Error) {
+                console.log('An NFC error occurred:', error.message);
+            } else {
+                console.log('An NFC error occurred');
+            }
+        }
     };
 
     const stopSession = async () => {

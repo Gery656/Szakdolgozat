@@ -37,6 +37,13 @@ export default function TabLayout() {
             tabBarIcon: ({ color }) => <IconSymbol size={28} name="wave.3.right" color={color} />,
           }}
         />
+          <Tabs.Screen
+          name="scan"
+          options={{
+            title: 'Scan',
+            tabBarIcon: ({ color }) => <IconSymbol size={28} name="wave.3.right" color={color} />,
+          }}
+        />
     </Tabs>
   );
 }
