@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.gery656.Szakdolgozat"
     },
     "web": {
       "output": "static",
@@ -38,11 +39,25 @@
             "backgroundColor": "#000000"
           }
         }
+      ],
+      [
+        "./plugins/copy-and-manifest",
+        {
+          "src": "./config/aid_list.xml",
+          "androidDest": "app/src/main/res/xml/aid_list.xml"
+        }
       ]
+      //"react-native-nfc-manager"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "13afc61d-a293-451f-94cc-99ecbc01325a"
+      }
     }
   }
 }
