@@ -19,6 +19,7 @@ const MAPPING = {
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
   'wave.3.right' : 'nfc',
+  'camera' : 'camera'
 } as IconMapping;
 
 /**

@@ -18,6 +18,7 @@ export default function NFCScreen() {
         }>
         <Text className='text-black dark:text-white m-auto text-2xl'> - NFC Emulate-</Text>
         {Platform.OS === 'android' && <NfcEmulationPanelWrapper></NfcEmulationPanelWrapper>}
+        {Platform.OS ==='ios' && <Text className='text-red-900 dark:text-red-500 m-auto text-xl'>IOS eszközön nem elérhető</Text>}
     </ParallaxScrollView>
   );
 }
