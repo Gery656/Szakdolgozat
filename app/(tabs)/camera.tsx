@@ -1,13 +1,14 @@
+import CameraScanControl from '@/components/cameraScanControl';
 import { StyleSheet, Text, View } from 'react-native';
 
 
-export default function NFCScreen() {
+export default function CameraScreen() {
 
 
   return (
-    <View className='h-full'>
-        <Text className='text-black dark:text-white m-auto text-2xl mt-32'> - Camera -</Text>
-
+    <View>
+        <Text className='text-black dark:text-white m-auto text-2xl my-32'> - Camera -</Text>
+        <CameraScanControl></CameraScanControl>
     </View>
   );
 }
