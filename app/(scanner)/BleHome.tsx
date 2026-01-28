@@ -1,25 +1,55 @@
 import useBLE from '@/hooks/useBLE';
 import { useIsFocused } from '@react-navigation/native';
-import { StyleSheet, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState } from 'react';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 
 export default function BleHome() {
 
   const isFocused = useIsFocused();
 
-  const {requestPermissions, scanForPeripherals} = useBLE();
+  const {requestPermissions, scanForPeripherals, allDevices} = useBLE();
+
+  const [isModalVisible,setModalVisible] = useState<boolean>(false);
+
+  const scanForDevices = async () => {
+    const isPermissionEnabled = await requestPermissions();
+    if (isPermissionEnabled) {
+      scanForPeripherals();
+    }
+  };
+
+  const hideModal = ()=>{
+    setModalVisible(false); 
+  }
+
+  const openModal = async ()=>{
+    scanForDevices();
+    setModalVisible(true);
+  }
   
   return (isFocused &&
-      <SafeAreaView
+      <ScrollView
         style={
           StyleSheet.absoluteFillObject
         }
       >
 
         <Text className='text-white text-xl mx-auto mt-20'>BLE scan helye</Text>
+                <Pressable onPress={openModal} className='mx-auto my-5 border-red-500 border p-3 rounded-lg bg-blue-900'>
+                    <Text className='text-white'>Search</Text>
+                </Pressable>
 
-      </SafeAreaView>
+                <View className='w-11/12 bg-blue-950 mt-5 mx-auto rounded-3xl'>
+                  {allDevices.map((device,i)=>
+                  <View key={i} className='w-11/12 mx-auto border-b pb-1 border-red-500'>
+                    <Text className='text-white mt-2'>{device.id}</Text>
+                    {device.serviceUUIDs?.map((uuid,j)=><Text key={j} className='text-white mx-auto'>{uuid}</Text>)}
+                  </View>
+                )}
+                </View>
+                
+      </ScrollView>
   );
 }
 
