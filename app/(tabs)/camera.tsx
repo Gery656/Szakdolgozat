@@ -1,3 +1,4 @@
+import BleScanControl from '@/components/bleScanControl';
 import CameraScanControl from '@/components/cameraScanControl';
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -7,8 +8,9 @@ export default function CameraScreen() {
 
   return (
     <View>
-        <Text className='text-black dark:text-white m-auto text-2xl my-32'> - Camera -</Text>
+        <Text className='text-black dark:text-white m-auto text-2xl my-32'> - Camera / BLE -</Text>
         <CameraScanControl></CameraScanControl>
+        <BleScanControl></BleScanControl>
     </View>
   );
 }
