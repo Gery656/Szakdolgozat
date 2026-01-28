@@ -1,3 +1,4 @@
+import useBLE from '@/hooks/useBLE';
 import { useIsFocused } from '@react-navigation/native';
 import { StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -6,6 +7,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function BleHome() {
 
   const isFocused = useIsFocused();
+
+  const {requestPermissions, scanForPeripherals} = useBLE();
   
   return (isFocused &&
       <SafeAreaView
