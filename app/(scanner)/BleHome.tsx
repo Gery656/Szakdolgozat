@@ -45,6 +45,7 @@ export default function BleHome() {
                   <View key={i} className='w-11/12 mx-auto border-b pb-1 border-red-500'>
                     <Text className='text-white mt-2'>{device.id}</Text>
                     {device.serviceUUIDs?.map((uuid,j)=><Text key={j} className='text-white mx-auto'>{uuid}</Text>)}
+                    <Text className='text-white mx-auto'>{device.name}</Text>
                   </View>
                 )}
                 </View>
