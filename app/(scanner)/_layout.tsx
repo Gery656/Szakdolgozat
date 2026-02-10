@@ -11,6 +11,7 @@ export default function TabLayout() {
       <Stack.Screen name="CameraHome" options={{title: "", headerShown:true, headerTransparent:true}} />
       <Stack.Screen name="BleHome" options={{headerShown:false}} />
       <Stack.Screen name="GeoHome" options={{headerShown:false}} />
+      <Stack.Screen name="SecureStorageHome" options={{headerShown:false}} />
     </Stack>
   );
 }

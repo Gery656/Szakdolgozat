@@ -1,6 +1,7 @@
 import BleScanControl from '@/components/bleScanControl';
 import CameraScanControl from '@/components/cameraScanControl';
 import LocatorControl from '@/components/locatorControl';
+import SecureStorageControl from '@/components/secureStorageControl';
 import { StyleSheet, Text, View } from 'react-native';
 
 
@@ -13,6 +14,7 @@ export default function CameraScreen() {
         <CameraScanControl></CameraScanControl>
         <BleScanControl></BleScanControl>
         <LocatorControl></LocatorControl>
+        <SecureStorageControl></SecureStorageControl>
     </View>
   );
 }
