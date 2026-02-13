@@ -7,7 +7,7 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Stack>
+    <Stack screenOptions={{contentStyle:{backgroundColor:'#fffdf5'}}}>
       <Stack.Screen name="CameraHome" options={{title: "", headerShown:true, headerTransparent:true}} />
       <Stack.Screen name="BleHome" options={{headerShown:false}} />
       <Stack.Screen name="GeoHome" options={{headerShown:false}} />

@@ -1,0 +1,22 @@
+import { Pressable, Text, TextInput, View } from "react-native";
+
+export default function EventCreationForm(){
+    return(
+        <View className="bg-[#F2EAD3] mt-20 w-11/12 py-3 px-3 rounded-2xl mx-auto grid grid-flow-row">
+
+            <Text className="text-lg">Esemény neve</Text>
+            <TextInput className="border border-custom-secondary rounded-lg text-black text-lg h-12 bg-custom-background"/>
+
+            <Text className="text-lg mt-2">Rövid leírás</Text>
+            <TextInput
+            editable
+            multiline={true}
+            numberOfLines={4}
+            className="border border-custom-secondary rounded-lg text-black text-lg min-h-12 bg-custom-background"/>
+
+            <Pressable className="w-full h-16 bg-custom-secondary mt-10 rounded-lg">
+                <Text className="text-[#F5F5F5] m-auto">Létrehozás</Text>
+            </Pressable>
+        </View>
+    )
+}
