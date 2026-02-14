@@ -10,6 +10,7 @@ export default function TabLayout() {
     <Stack screenOptions={{contentStyle:{backgroundColor:'#fffdf5'}}}>
       <Stack.Screen name="MyEvents" options={{headerShown:false}} />
       <Stack.Screen name="NewEventScreen" options={{headerShown:false}} />
+      <Stack.Screen name="BluetoothDevicesScreen" options={{headerShown:false}} />
     </Stack>
   );
 }
