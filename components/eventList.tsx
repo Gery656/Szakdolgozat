@@ -1,4 +1,5 @@
 import { Image } from "expo-image";
+import { Link } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function EventList(){
@@ -9,20 +10,25 @@ export default function EventList(){
 
 
         {nums.map((num) =>
-            <Pressable key={num} className="my-2">
-                <View className="w-full flex flex-row bg-custom-primary rounded-2xl shadow p-2">
-                    <View className="w-5/6">
-                        <View className="my-auto w-full h-fit">
-                            <Text className="text-xl">Példa esemény</Text>
-                            <Text className="my-2">x db ellenőrzés történt</Text>
-                            <Text>Ez az általam rendezett példa esemény.</Text>
+            <Link
+            key={num}
+            href={{pathname: "/(screens)/ChosenEventScreen", params:{event_id: num}}}
+            asChild>
+                <Pressable className="my-2">
+                    <View className="w-full flex flex-row bg-custom-primary rounded-2xl shadow p-2">
+                        <View className="w-5/6">
+                            <View className="my-auto w-full h-fit">
+                                <Text className="text-xl">{num}. Példa esemény</Text>
+                                <Text className="my-2">x db ellenőrzés történt</Text>
+                                <Text>Ez az általam rendezett példa esemény.</Text>
+                            </View>
+                        </View>
+                        <View className="w-1/6">
+                            <Image source={require("@/assets/images/rightArrow.png")} style={styles.image}/>
                         </View>
                     </View>
-                    <View className="w-1/6">
-                        <Image source={require("@/assets/images/rightArrow.png")} style={styles.image}/>
-                    </View>
-                </View>
-            </Pressable>
+                </Pressable>
+            </Link>
         )}
         </View>
     )

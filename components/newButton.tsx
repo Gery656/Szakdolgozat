@@ -1,14 +1,15 @@
 import { Image } from "expo-image";
-import { Link } from "expo-router";
+import { Href, Link } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 interface NewEventButtonProp{
     title:string,
+    destination: Href
 }
-export default function NewEventButton({title}:NewEventButtonProp)
+export default function NewButton({title,destination}:NewEventButtonProp)
 {
     return(
-        <Link href={'/NewEventScreen'} asChild >
+        <Link href={destination} asChild >
             <Pressable>
                 <View className="border border-custom-secondary rounded-3xl shadow bg-custom-primary">
                     <View className="flex flex-row gap-2 px-4 py-2 m-auto">
