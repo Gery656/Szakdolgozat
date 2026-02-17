@@ -18,7 +18,7 @@ export default function CatalogList(){
                         <View className="w-full flex flex-row bg-custom-primary rounded-2xl shadow p-2">
                             <View className="w-5/6">
                                 <View className="my-auto w-full h-fit">
-                                    <Text className="text-xl">{num}. Jelentkezés</Text>
+                                    <Text className="text-xl">{num}. Ellenőrzés</Text>
                                     <View className="flex flex-row w-full">
                                         <View className="w-1/2 flex flex-row gap-2">
                                             <View>

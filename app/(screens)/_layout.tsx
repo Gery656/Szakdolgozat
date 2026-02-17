@@ -13,6 +13,7 @@ export default function TabLayout() {
       <Stack.Screen name="BluetoothDevicesScreen" options={{headerShown:false}} />
       <Stack.Screen name="NewBluetoothDeviceScreen" options={{headerShown:false}} />
       <Stack.Screen name="ChosenEventScreen" options={{headerShown:false}} />
+      <Stack.Screen name="NewCatalogScreen" options={{headerShown:false}} />
     </Stack>
   );
 }

@@ -19,7 +19,7 @@ export default function ChosenEventScreen(){
             <TextBubble text="Ez az általam készített példa esemény."/>
 
             <View className="w-11/12 h-10 mx-auto felx flex-row gap-2 mt-3">
-                <NewButton title="Új" destination={"/(screens)/NewEventScreen"}></NewButton>
+                <NewButton title="Új" destination={"/(screens)/NewCatalogScreen"}></NewButton>
             </View>
 
             <SeparatingLine/>
