@@ -1,6 +1,5 @@
 import NewCatalogForm from "@/components/newCatalogForm";
 import PageTitle from "@/components/pageTitle";
-import StartSignUpSwitch from "@/components/startSignUpSwitch";
 import { View } from "react-native";
 
 export default function NewCatalogScreen() {
@@ -15,7 +14,7 @@ export default function NewCatalogScreen() {
 
             </View>
 
-            <StartSignUpSwitch isStartPage={true}></StartSignUpSwitch>
+            
         </>
     )
 }

@@ -10,7 +10,7 @@ export default function RegisterLoginSwitch({isRegisterPage}:RegisterLoginProp){
     
 
     return(
-        <View className="w-full h-16 mx-auto absolute bottom-0 flex flex-row">
+        <View className="w-full h-16 mx-auto absolute bottom-0 flex flex-row ios:mb-10 android:mb-16">
             <View className="h-full w-1/2 p-2">
 
                 <Link href={'/'} asChild>
