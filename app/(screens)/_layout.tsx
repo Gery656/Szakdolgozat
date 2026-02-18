@@ -1,12 +1,14 @@
 import { Stack } from 'expo-router';
 import React from 'react';
 
+import StartSignUpSwitch from '@/components/startSignUpSwitch';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
+    <>
     <Stack screenOptions={{contentStyle:{backgroundColor:'#fffdf5'}}}>
       <Stack.Screen name="MyEvents" options={{headerShown:false}} />
       <Stack.Screen name="NewEventScreen" options={{headerShown:false}} />
@@ -14,6 +16,9 @@ export default function TabLayout() {
       <Stack.Screen name="NewBluetoothDeviceScreen" options={{headerShown:false}} />
       <Stack.Screen name="ChosenEventScreen" options={{headerShown:false}} />
       <Stack.Screen name="NewCatalogScreen" options={{headerShown:false}} />
+      <Stack.Screen name="ChosenCatalogScreen" options={{headerShown:false}} />
     </Stack>
+    <StartSignUpSwitch isStartPage={true}></StartSignUpSwitch>
+    </>
   );
 }

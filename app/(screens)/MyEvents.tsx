@@ -4,13 +4,11 @@ import NewButton from "@/components/newButton";
 import PadElement from "@/components/padElement";
 import PageTitle from "@/components/pageTitle";
 import SeparatingLine from "@/components/separatingLine";
-import StartSignUpSwitch from "@/components/startSignUpSwitch";
 import { ScrollView, View } from "react-native";
 
 export default function MyEvents()
 {
     return(
-        <>
         <ScrollView className="min-w-full min-h-full">
             
             <PageTitle title="Eseményeim" backButton={false}></PageTitle>
@@ -27,8 +25,5 @@ export default function MyEvents()
             <PadElement/>
 
         </ScrollView>
-        
-        <StartSignUpSwitch isStartPage={true}></StartSignUpSwitch>
-        </>
     )
 }

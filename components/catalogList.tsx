@@ -1,7 +1,11 @@
 import { Link } from "expo-router";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-export default function CatalogList(){
+interface CatalogListProps{
+    event_id:string
+}
+
+export default function CatalogList({event_id}:CatalogListProps){
 
     const nums = [...Array(10).keys()];
 
@@ -12,7 +16,7 @@ export default function CatalogList(){
             {nums.map((num) =>
                 <Link
                 key={num}
-                href={{pathname: "/(screens)/ChosenEventScreen", params:{event_id: num}}}
+                href={{pathname: "/(screens)/ChosenCatalogScreen", params:{event_id: event_id,catalog_id: num}}}
                 asChild>
                     <Pressable className="my-2">
                         <View className="w-full flex flex-row bg-custom-primary rounded-2xl shadow p-2">

@@ -3,7 +3,6 @@ import NewButton from "@/components/newButton";
 import PadElement from "@/components/padElement";
 import PageTitle from "@/components/pageTitle";
 import SeparatingLine from "@/components/separatingLine";
-import StartSignUpSwitch from "@/components/startSignUpSwitch";
 import TextBubble from "@/components/textBubble";
 import { useLocalSearchParams } from "expo-router";
 import { ScrollView, View } from "react-native";
@@ -11,7 +10,6 @@ import { ScrollView, View } from "react-native";
 export default function ChosenEventScreen(){
     const {event_id} = useLocalSearchParams();
     return(
-        <>
         <ScrollView className="min-w-full min-h-full">
             
             <PageTitle title={event_id+". Példa esemény"} backButton={false}></PageTitle>
@@ -24,13 +22,10 @@ export default function ChosenEventScreen(){
 
             <SeparatingLine/>
 
-            <CatalogList />
+            <CatalogList event_id={event_id.toString()}/>
 
             <PadElement/>
 
         </ScrollView>
-        
-        <StartSignUpSwitch isStartPage={true}></StartSignUpSwitch>
-        </>
     )
 }
