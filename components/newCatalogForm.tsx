@@ -1,9 +1,14 @@
 import { Picker } from '@react-native-picker/picker';
 import { useIsFocused } from '@react-navigation/native';
+import { router } from 'expo-router';
 import { useState } from "react";
 import { Platform, Pressable, StyleSheet, Switch, Text, TextInput, View } from "react-native";
 
-export default function NewCatalogForm() {
+interface NewCatalogFormProp{
+    event_id:string
+}
+
+export default function NewCatalogForm({event_id}:NewCatalogFormProp) {
 
     const [catalogType, setCatalogType] = useState("code");
     const [isEnabled, setIsEnabled] = useState(false);
@@ -101,7 +106,9 @@ export default function NewCatalogForm() {
                         value={isEnabled}
                     />
                 </View>
-                <Pressable className="w-full h-16 bg-custom-secondary mt-10 rounded-lg">
+                <Pressable
+                onPress={()=>{router.push({pathname: "/(screens)/OnSuccessfulCatalogCreation",params: {event_id:event_id,catalog_id:"2"}})}}
+                className="w-full h-16 bg-custom-secondary mt-10 rounded-lg">
                     <Text className="text-[#F5F5F5] m-auto">Indítás</Text>
                 </Pressable>
             </View>

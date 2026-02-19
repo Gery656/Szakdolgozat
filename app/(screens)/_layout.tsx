@@ -17,6 +17,7 @@ export default function TabLayout() {
       <Stack.Screen name="ChosenEventScreen" options={{headerShown:false}} />
       <Stack.Screen name="NewCatalogScreen" options={{headerShown:false}} />
       <Stack.Screen name="ChosenCatalogScreen" options={{headerShown:false}} />
+      <Stack.Screen name="OnSuccessfulCatalogCreation" options={{headerShown:false}} />
     </Stack>
     <StartSignUpSwitch isStartPage={true}></StartSignUpSwitch>
     </>

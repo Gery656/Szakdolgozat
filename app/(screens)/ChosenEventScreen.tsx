@@ -12,12 +12,12 @@ export default function ChosenEventScreen(){
     return(
         <ScrollView className="min-w-full min-h-full">
             
-            <PageTitle title={event_id+". Példa esemény"} backButton={false}></PageTitle>
+            <PageTitle title={event_id+". Példa esemény"} backButton={true}></PageTitle>
 
             <TextBubble text="Ez az általam készített példa esemény."/>
 
             <View className="w-11/12 h-10 mx-auto felx flex-row gap-2 mt-3">
-                <NewButton title="Új" destination={"/(screens)/NewCatalogScreen"}></NewButton>
+                <NewButton title="Új" destination={{pathname:"/(screens)/NewCatalogScreen",params:{event_id:event_id}}}></NewButton>
             </View>
 
             <SeparatingLine/>
