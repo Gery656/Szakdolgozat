@@ -1,6 +1,6 @@
 import PageTitle from "@/components/pageTitle";
 import SecondaryTitle from "@/components/secondaryTitle";
-import NfcShareBlock from "@/components/shareComponents/nfcShareBlock";
+import SuccessText from "@/components/shareComponents/successText";
 import { useLocalSearchParams } from "expo-router";
 import { View } from "react-native";
 
@@ -15,7 +15,7 @@ export default function OnSuccessfulCatalogCreation() {
 
             <SecondaryTitle text={catalog_id+". Ellenőrzés"}/>
 
-            <NfcShareBlock></NfcShareBlock>
+            <SuccessText></SuccessText>
 
         </View>
     )
