@@ -20,6 +20,7 @@ export default function TabLayout() {
       <Stack.Screen name="OnSuccessfulCatalogCreation" options={{headerShown:false,animation:"slide_from_right"}} />
 
       <Stack.Screen name="SignUpOnACatalogScreen" options={{headerShown:false, animation:"slide_from_right"}} />
+      <Stack.Screen name="ChosenSignUpMethodScreen" options={{headerShown:false, animation:"slide_from_right"}} />
     </Stack>
 
     <StartSignUpSwitch />

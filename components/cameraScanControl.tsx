@@ -1,5 +1,6 @@
 import { useCameraPermissions } from 'expo-camera';
 import { Link } from 'expo-router';
+import { useEffect } from 'react';
 import { Pressable, Text, View } from "react-native";
 
 function CameraScanControl() {
@@ -7,6 +8,16 @@ function CameraScanControl() {
     const [permission,requestPermission] = useCameraPermissions();
 
     const isPermissionGranted = Boolean(permission?.granted);
+
+    useEffect(()=>{
+        async function requestTheNeededPermissions(){
+            await requestPermission();
+        }
+
+        if (!isPermissionGranted) {
+            requestTheNeededPermissions();
+        }
+    },[]);
 
     return(
         <View className="bg-blue-950 rounded-3xl w-11/12 m-auto">

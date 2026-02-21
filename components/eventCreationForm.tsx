@@ -2,7 +2,7 @@ import { Pressable, Text, TextInput, View } from "react-native";
 
 export default function EventCreationForm(){
     return(
-        <View className="bg-[#F2EAD3] mt-20 w-11/12 py-3 px-3 rounded-2xl mx-auto grid grid-flow-row">
+        <View className="bg-custom-primary mt-20 w-11/12 py-3 px-3 rounded-2xl mx-auto grid grid-flow-row">
 
             <Text className="text-lg">Esemény neve</Text>
             <TextInput className="border border-custom-secondary rounded-lg text-black text-lg h-12 bg-custom-background"/>
