@@ -1,7 +1,7 @@
 import useBLE from '@/hooks/useBLE';
 import { useIsFocused } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 
 export default function BleHome() {
@@ -56,9 +56,6 @@ export default function BleHome() {
       >
 
         <Text className='text-white text-xl mx-auto mt-20'>BLE scan helye</Text>
-                <Pressable onPress={openModal} className='mx-auto my-5 border-red-500 border p-3 rounded-lg bg-blue-900'>
-                    <Text className='text-white'>Search</Text>
-                </Pressable>
 
                 {isScanningDone && <View className='w-11/12 bg-blue-950 mt-5 mx-auto rounded-3xl'>
                   {allDevices.map((device,i)=>

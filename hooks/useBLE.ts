@@ -20,29 +20,29 @@ function useBLE(): BluetoothLowEnergyApi{
     const requestAndroid31Permissions= async() => {
         const bluetoothScanPermissions = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
-            {
-                title: "Scan Permission",
-                message: "App requires bluetooth scanning",
-                buttonPositive:"OK"
-            }
+            // {
+            //     title: "Scan Permission",
+            //     message: "App requires bluetooth scanning",
+            //     buttonPositive:"OK"
+            // }
         );
 
         const bluetoothConnectPermissions = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
-            {
-                title: "Connect Permission",
-                message: "App requires bluetooth connecting",
-                buttonPositive:"OK"
-            }
+            // {
+            //     title: "Connect Permission",
+            //     message: "App requires bluetooth connecting",
+            //     buttonPositive:"OK"
+            // }
         );
 
         const bluetoothFineLocationPermissions = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            {
-                title: "Fine Location",
-                message: "App requires fine location",
-                buttonPositive:"OK"
-            }
+            // {
+            //     title: "Fine Location",
+            //     message: "App requires fine location",
+            //     buttonPositive:"OK"
+            // }
         );
         return(
             bluetoothScanPermissions === "granted" &&
@@ -63,15 +63,15 @@ function useBLE(): BluetoothLowEnergyApi{
                     }
                 )
 
-                return granted === PermissionsAndroid.RESULTS.GRANTED;
+                return (granted === PermissionsAndroid.RESULTS.GRANTED) && await bleManager.state() === "PoweredOn";
             } else{
                 const isAndroid31PermissionGranted = await requestAndroid31Permissions();
 
-                return isAndroid31PermissionGranted;
+                return isAndroid31PermissionGranted && await bleManager.state() === "PoweredOn";
             }
         }else {
             
-            return true;
+            return await bleManager.state() === "PoweredOn";
         }
     };
     
@@ -81,7 +81,7 @@ function useBLE(): BluetoothLowEnergyApi{
     const scanForPeripherals = () => {
         bleManager.startDeviceScan(null,null,(error,device) =>{
             if (error) {
-                Alert.alert("Bluetooth engedélyezése","Hiba lépett fel bluetooth keresés használata közben, kérem engedélyezze a használatát a beállításokban és próbálkozzon újra")
+                Alert.alert("Bluetooth hiba","Kérjük kapcsolja be vagy engedélyezze a bluetooth használatát a beállításokban és próbálkozzon újra.")
                 console.log(error);
                 if (router.canGoBack()) {
                     router.back();
@@ -102,6 +102,10 @@ function useBLE(): BluetoothLowEnergyApi{
     const stopScanForPeripherals = () => {
         bleManager.stopDeviceScan();
     };
+
+    const turnOnBluetooth = async ()=>{
+        await bleManager.enable();
+    }
     
     return {
         scanForPeripherals,

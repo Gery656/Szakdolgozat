@@ -1,17 +1,20 @@
 import useBLE from "@/hooks/useBLE";
 import { router } from "expo-router";
-import { Alert, Pressable, Text, TextInput, View } from "react-native";
+import { useState } from "react";
+import { Pressable, Text, TextInput, View } from "react-native";
 
 export default function SignUpBluetoothSignalsSubmitForm(){
 
   const {requestPermissions} = useBLE();
+  const [errorText,setErrorText] = useState("");
+
 const evaluatePermissions = async () => {
     const isPermissionEnabled = await requestPermissions();
     if (isPermissionEnabled) {
       router.push('/(scanner)/BleHome');
     }
     else{
-        Alert.alert('Hiányzó engedélyek vannak.')
+        setErrorText("Kérem kapcsolja be a bluetooth-t és a beállításokban adja meg a következő engedélyeket: Helyadatok, Közeli eszközök")
     }
   };
     return(
@@ -25,6 +28,7 @@ const evaluatePermissions = async () => {
              onPress={evaluatePermissions}>
                 <Text className="text-[#F5F5F5] m-auto">Jelentkezés</Text>
             </Pressable>
+            {errorText && <Text className="text-red-600 mt-2">{errorText}</Text>}
         </View>
     )
 }
