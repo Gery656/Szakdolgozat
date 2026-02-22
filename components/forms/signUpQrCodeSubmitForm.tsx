@@ -26,7 +26,7 @@ export default function SignUpQrCodeSubmitForm() {
 
             <Text className="text-lg mx-auto">Kamera engedélyezése szükséges</Text>
 
-            <Pressable onPress={requestPermission} className="w-full h-16 bg-custom-secondary mt-10 rounded-lg">
+            <Pressable onPress={requestPermission} className="w-full h-16 bg-custom-secondary rounded-lg">
                 <Text className="text-[#F5F5F5] m-auto">Újra</Text>
             </Pressable>
         </View>

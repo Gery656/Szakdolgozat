@@ -1,6 +1,6 @@
 import useBLE from '@/hooks/useBLE';
 import { useIsFocused } from '@react-navigation/native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 
@@ -8,9 +8,11 @@ export default function BleHome() {
 
   const isFocused = useIsFocused();
 
-  const {requestPermissions, scanForPeripherals, allDevices} = useBLE();
+  const {requestPermissions, scanForPeripherals, allDevices, stopScanForPeripherals} = useBLE();
 
   const [isModalVisible,setModalVisible] = useState<boolean>(false);
+
+  const [isScanningDone,setIsScanningDone] = useState<boolean>(false);
 
   const scanForDevices = async () => {
     const isPermissionEnabled = await requestPermissions();
@@ -27,6 +29,24 @@ export default function BleHome() {
     scanForDevices();
     setModalVisible(true);
   }
+
+  useEffect(()=>{
+    
+    scanForPeripherals();
+    let timeout1 = setTimeout(() => {
+        stopScanForPeripherals();
+        setIsScanningDone(true);
+        console.log("BLE SCAN")
+    }, 5000);
+    
+
+    return ()=>{
+        stopScanForPeripherals();
+        console.log("Return of useEffect")
+        clearTimeout(timeout1);
+        
+    };
+  },[]);
   
   return (isFocused &&
       <ScrollView
@@ -40,7 +60,7 @@ export default function BleHome() {
                     <Text className='text-white'>Search</Text>
                 </Pressable>
 
-                <View className='w-11/12 bg-blue-950 mt-5 mx-auto rounded-3xl'>
+                {isScanningDone && <View className='w-11/12 bg-blue-950 mt-5 mx-auto rounded-3xl'>
                   {allDevices.map((device,i)=>
                   <View key={i} className='w-11/12 mx-auto border-b pb-1 border-red-500'>
                     <Text className='text-white mt-2'>{device.id}</Text>
@@ -48,7 +68,7 @@ export default function BleHome() {
                     <Text className='text-white mx-auto'>{device.name}</Text>
                   </View>
                 )}
-                </View>
+                </View>}
                 
       </ScrollView>
   );

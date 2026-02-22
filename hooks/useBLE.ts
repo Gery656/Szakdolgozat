@@ -1,14 +1,16 @@
 /* eslint-disable no-bitwise */
 
 import * as ExpoDevice from "expo-device";
+import { router } from "expo-router";
 import { useMemo, useState } from "react";
-import { PermissionsAndroid, Platform } from "react-native";
+import { Alert, PermissionsAndroid, Platform } from "react-native";
 import { BleManager, Device } from "react-native-ble-plx";
 
 interface BluetoothLowEnergyApi{
     requestPermissions():Promise<boolean>;
     scanForPeripherals():void;
     allDevices:Device[];
+    stopScanForPeripherals():void;
 }
 
 function useBLE(): BluetoothLowEnergyApi{
@@ -68,6 +70,7 @@ function useBLE(): BluetoothLowEnergyApi{
                 return isAndroid31PermissionGranted;
             }
         }else {
+            
             return true;
         }
     };
@@ -78,7 +81,11 @@ function useBLE(): BluetoothLowEnergyApi{
     const scanForPeripherals = () => {
         bleManager.startDeviceScan(null,null,(error,device) =>{
             if (error) {
+                Alert.alert("Bluetooth engedélyezése","Hiba lépett fel bluetooth keresés használata közben, kérem engedélyezze a használatát a beállításokban és próbálkozzon újra")
                 console.log(error);
+                if (router.canGoBack()) {
+                    router.back();
+                }
             }
 
             if (device /* more constraints can be put here */) {
@@ -92,10 +99,15 @@ function useBLE(): BluetoothLowEnergyApi{
         })
     };
 
+    const stopScanForPeripherals = () => {
+        bleManager.stopDeviceScan();
+    };
+    
     return {
         scanForPeripherals,
         requestPermissions,
-        allDevices
+        allDevices,
+        stopScanForPeripherals
     }
 }
 
