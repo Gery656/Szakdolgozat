@@ -1,14 +1,12 @@
-import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { useIsFocused } from '@react-navigation/native';
-import { Image } from 'expo-image';
 import { useEffect, useState } from 'react';
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import NfcManager, { Ndef, NfcEvents, NfcTech } from "react-native-nfc-manager";
 
 
 export default function NFCScanScreen() {
   const isFocused = useIsFocused();
-  const [errorText, setErrorText] = useState({state:"loading",message:""});
+  const [stateOfScan, setStateOfScan] = useState({state:"loading",message:""});
 
   function listenToNfcEventOnce() {
   const cleanUp = () => {
@@ -53,7 +51,7 @@ export default function NFCScanScreen() {
         const decodeddata = new Uint8Array(gotBytes)
 
         console.warn('Tag found', Ndef.text.decodePayload(decodeddata));
-        setErrorText(prevState => {
+        setStateOfScan(prevState => {
           return {
             ...prevState,
             state: "done",
@@ -71,7 +69,7 @@ export default function NFCScanScreen() {
         const decodeddata = new Uint8Array(gotBytes)
 
         console.warn('Tag found', Ndef.text.decodePayload(decodeddata));
-                setErrorText(prevState => {
+                setStateOfScan(prevState => {
           return {
             ...prevState,
             state: "done",
@@ -82,7 +80,7 @@ export default function NFCScanScreen() {
       }
     } catch (ex) {
       console.warn('Oops!', ex);
-      setErrorText(prevState => {
+      setStateOfScan(prevState => {
           return {
             ...prevState,
             state: "error",
@@ -99,7 +97,7 @@ export default function NFCScanScreen() {
   useEffect(() => {
     async function checkIfEnabledAndScan() {
       if (await NfcManager.isEnabled()) {
-        setErrorText(prevState => {
+        setStateOfScan(prevState => {
           return {
             ...prevState,
             state: "scanning",
@@ -111,7 +109,7 @@ export default function NFCScanScreen() {
       }
       else {
 
-        setErrorText(prevState => {
+        setStateOfScan(prevState => {
           return {
             ...prevState,
             state: "error",
@@ -130,48 +128,53 @@ export default function NFCScanScreen() {
   },[]);
 
   return (isFocused &&
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-          />
-        }>
-        <Text className='text-black dark:text-white m-auto text-2xl'> - NFC Scan -</Text>
-        <View className='flex justify-center items-center'>
-            <TouchableOpacity onPress={readNdef}>
-                <Text className='text-white'>Scan a Tag</Text>
-            </TouchableOpacity>
-            <Text className='mt-10 mx-auto text-white text-xl'>{errorText.state}</Text>
-            <Text className='mt-10 mx-auto text-white'>{errorText.message}</Text>
-        </View>
+    <View className='min-w-full min-h-full'>
+
+     {stateOfScan.state==="error" && 
+                 <View className='w-11/12 m-auto bg-custom-primary rounded-xl p-4'>
+              <View className='border-b'>
+                <Text className='text-xl mx-auto'>Hiba történt</Text>
+              </View>
+              <View className='mt-4'>
+                <Text className='mx-auto'>{stateOfScan.message}</Text>
+                <Text className='mx-auto'>Próbálkozzon újra</Text>
+              </View>
+            </View>}
+
+      {stateOfScan.state === "done" &&
+            <View className='w-11/12 m-auto bg-custom-primary rounded-xl p-4'>
+              <View className='border-b'>
+                <Text className='text-xl mx-auto'>Sikeres olvasás</Text>
+              </View>
+              <View className='mt-4'>
+                <Text className='mx-auto'>{stateOfScan.message}</Text>
+              </View>
+            </View>}
+
+      {stateOfScan.state === "loading" &&
+            <View className='w-11/12 m-auto bg-custom-primary rounded-xl p-4'>
+              <View className='border-b'>
+                <Text className='text-xl mx-auto'></Text>
+              </View>
+              <View className='mt-4'>
+                <Text className='mx-auto'></Text>
+                <Text className='mx-auto'></Text>
+              </View>
+            </View>
+      }
+
+      {stateOfScan.state === "scanning" &&
+            <View className='w-11/12 m-auto bg-custom-primary rounded-xl p-4'>
+              <View className='border-b'>
+                <Text className='text-xl mx-auto'>Olvasás...</Text>
+              </View>
+              <View className='mt-4'>
+                <Text className='mx-auto'></Text>
+                <Text className='mx-auto'></Text>
+              </View>
+            </View>
+      }
         
-    </ParallaxScrollView>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-  wrapper: {
-    color:"#ffffff",
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
