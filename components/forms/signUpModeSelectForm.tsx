@@ -90,7 +90,12 @@ export default function SignUpModeSelectForm() {
                     router.push("/(scanner)/CameraHome")
                 }
                 else{
-                    router.push({pathname:"/(screens)/ChosenSignUpMethodScreen",params:{mode: selectedMode, isGps: isEnabled ? "true" : "false"}})
+                    if (selectedMode === "nfc") {
+                        router.push("/(scanner)/scan");
+                    }
+                    else{
+                        router.push({pathname:"/(screens)/ChosenSignUpMethodScreen",params:{mode: selectedMode, isGps: isEnabled ? "true" : "false"}})
+                    }
                 }
             }}>
                 <Text className="text-[#F5F5F5] m-auto">Jelentkezés</Text>

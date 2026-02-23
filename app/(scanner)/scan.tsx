@@ -1,10 +1,15 @@
 import ParallaxScrollView from '@/components/parallax-scroll-view';
+import { useIsFocused } from '@react-navigation/native';
 import { Image } from 'expo-image';
+import { useEffect, useState } from 'react';
 import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import NfcManager, { Ndef, NfcEvents, NfcTech } from "react-native-nfc-manager";
 
 
 export default function NFCScanScreen() {
+  const isFocused = useIsFocused();
+  const [errorText, setErrorText] = useState({state:"loading",message:""});
+
   function listenToNfcEventOnce() {
   const cleanUp = () => {
     NfcManager.setEventListener(NfcEvents.DiscoverTag, null);
@@ -33,7 +38,7 @@ export default function NFCScanScreen() {
 
     async function readNdef() {
     try {
-        NfcManager.start();
+      NfcManager.start()
       // register for the NFC tag with NDEF in it
       if (Platform.OS==="ios") {
         // await NfcManager.requestTechnology(NfcTech.MifareIOS);
@@ -46,7 +51,16 @@ export default function NFCScanScreen() {
         const gotBytes : number[] = [];
         tag.ndefMessage[0].payload.forEach((num : any) => gotBytes.push(num))
         const decodeddata = new Uint8Array(gotBytes)
+
         console.warn('Tag found', Ndef.text.decodePayload(decodeddata));
+        setErrorText(prevState => {
+          return {
+            ...prevState,
+            state: "done",
+            message: Ndef.text.decodePayload(decodeddata)
+          }
+        });
+
       }
       else{
         await NfcManager.requestTechnology(NfcTech.Ndef);
@@ -55,17 +69,67 @@ export default function NFCScanScreen() {
         const gotBytes : number[] = [];
         tag?.ndefMessage[0].payload.forEach(num => gotBytes.push(num))
         const decodeddata = new Uint8Array(gotBytes)
+
         console.warn('Tag found', Ndef.text.decodePayload(decodeddata));
+                setErrorText(prevState => {
+          return {
+            ...prevState,
+            state: "done",
+            message: Ndef.text.decodePayload(decodeddata)
+          }
+        });
+
       }
     } catch (ex) {
       console.warn('Oops!', ex);
+      setErrorText(prevState => {
+          return {
+            ...prevState,
+            state: "error",
+            message: "Nem sikerült beolvasni a jelet."
+          }
+        });
     } finally {
       // stop the nfc scanning
       NfcManager.cancelTechnologyRequest();
     }
   }
 
-  return (
+
+  useEffect(() => {
+    async function checkIfEnabledAndScan() {
+      if (await NfcManager.isEnabled()) {
+        setErrorText(prevState => {
+          return {
+            ...prevState,
+            state: "scanning",
+            message: ""
+          }
+        });
+        readNdef();
+        console.log("Scanning...")
+      }
+      else {
+
+        setErrorText(prevState => {
+          return {
+            ...prevState,
+            state: "error",
+            message: "NFC nincs bekapcsolva."
+          }
+        });
+      }
+    }
+
+    checkIfEnabledAndScan();
+    console.log("useEffect()");
+    return(()=>{
+      NfcManager.cancelTechnologyRequest();
+      console.log("end of useEffect()")
+    })
+  },[]);
+
+  return (isFocused &&
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       headerImage={
@@ -79,6 +143,8 @@ export default function NFCScanScreen() {
             <TouchableOpacity onPress={readNdef}>
                 <Text className='text-white'>Scan a Tag</Text>
             </TouchableOpacity>
+            <Text className='mt-10 mx-auto text-white text-xl'>{errorText.state}</Text>
+            <Text className='mt-10 mx-auto text-white'>{errorText.message}</Text>
         </View>
         
     </ParallaxScrollView>

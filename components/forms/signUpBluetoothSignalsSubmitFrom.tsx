@@ -11,6 +11,7 @@ export default function SignUpBluetoothSignalsSubmitForm(){
 const evaluatePermissions = async () => {
     const isPermissionEnabled = await requestPermissions();
     if (isPermissionEnabled) {
+      setErrorText("")
       router.push('/(scanner)/BleHome');
     }
     else{

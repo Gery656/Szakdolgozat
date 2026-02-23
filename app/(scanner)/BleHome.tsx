@@ -8,27 +8,9 @@ export default function BleHome() {
 
   const isFocused = useIsFocused();
 
-  const {requestPermissions, scanForPeripherals, allDevices, stopScanForPeripherals} = useBLE();
-
-  const [isModalVisible,setModalVisible] = useState<boolean>(false);
+  const {scanForPeripherals, allDevices, stopScanForPeripherals} = useBLE();
 
   const [isScanningDone,setIsScanningDone] = useState<boolean>(false);
-
-  const scanForDevices = async () => {
-    const isPermissionEnabled = await requestPermissions();
-    if (isPermissionEnabled) {
-      scanForPeripherals();
-    }
-  };
-
-  const hideModal = ()=>{
-    setModalVisible(false); 
-  }
-
-  const openModal = async ()=>{
-    scanForDevices();
-    setModalVisible(true);
-  }
 
   useEffect(()=>{
     
@@ -52,8 +34,7 @@ export default function BleHome() {
       <ScrollView
         style={
           StyleSheet.absoluteFillObject
-        }
-      >
+        }>
 
         <Text className='text-white text-xl mx-auto mt-20'>BLE scan helye</Text>
 
@@ -70,22 +51,3 @@ export default function BleHome() {
       </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
