@@ -32,13 +32,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
         }}
       />
-      <Tabs.Screen
-          name="emulate"
-          options={{
-            title: 'Emulate',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="wave.3.right" color={color} />,
-          }}
-        />
         <Tabs.Screen
           name="camera"
           options={{

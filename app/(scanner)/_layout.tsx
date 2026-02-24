@@ -13,6 +13,7 @@ export default function TabLayout() {
       <Stack.Screen name="GeoHome" options={{headerShown:false}} />
       <Stack.Screen name="SecureStorageHome" options={{headerShown:false}} />
       <Stack.Screen name="scan" options={{headerShown:false}} />
+      <Stack.Screen name="emulate" options={{headerShown:false}} />
     </Stack>
   );
 }

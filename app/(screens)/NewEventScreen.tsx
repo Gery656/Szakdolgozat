@@ -1,5 +1,5 @@
-import EventCreationForm from "@/components/eventCreationForm";
-import PageTitle from "@/components/pageTitle";
+import EventCreationForm from "@/components/forms/eventCreationForm";
+import PageTitle from "@/components/ui/pageTitle";
 import { View } from "react-native";
 
 export default function NewEventScreen()

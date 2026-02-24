@@ -1,5 +1,4 @@
 import { Picker } from '@react-native-picker/picker';
-import { useIsFocused } from '@react-navigation/native';
 import { router } from 'expo-router';
 import { useState } from "react";
 import { Platform, Pressable, StyleSheet, Switch, Text, TextInput, View } from "react-native";
@@ -13,9 +12,7 @@ export default function NewCatalogForm({event_id}:NewCatalogFormProp) {
     const [catalogType, setCatalogType] = useState("code");
     const [isEnabled, setIsEnabled] = useState(false);
 
-    const isFocused = useIsFocused();
-
-    return (isFocused &&
+    return (
         <View>
             <View className="bg-[#F2EAD3] mt-10 w-11/12 h-fit py-3 px-3 rounded-2xl mx-auto shadow">
 
@@ -49,7 +46,7 @@ export default function NewCatalogForm({event_id}:NewCatalogFormProp) {
                         <Picker.Item label="Kód" value="code" />
                         <Picker.Item label="QR" value="qr" />
                         <Picker.Item label="Bluetooth" value="bluetooth" />
-                        <Picker.Item label="NFC" value="nfc" />
+                        {Platform.OS==="android" && <Picker.Item label="NFC" value="nfc" />}
                     </Picker>
                     {/* the second Picker for IOS */}
                     {Platform.OS === "ios" && catalogType === "bluetooth" &&
@@ -107,7 +104,7 @@ export default function NewCatalogForm({event_id}:NewCatalogFormProp) {
                     />
                 </View>
                 <Pressable
-                onPress={()=>{router.push({pathname: "/(screens)/OnSuccessfulCatalogCreation",params: {event_id:event_id,catalog_id:"2"}})}}
+                onPress={()=>{router.push({pathname: "/(screens)/OnSuccessfulCatalogCreation",params: {event_id:event_id,catalog_id:"2",mode:catalogType}})}}
                 className="w-full h-16 bg-custom-secondary mt-10 rounded-lg">
                     <Text className="text-[#F5F5F5] m-auto">Indítás</Text>
                 </Pressable>

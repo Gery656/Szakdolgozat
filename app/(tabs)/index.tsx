@@ -1,7 +1,7 @@
 
-import PageTitle from '@/components/pageTitle';
-import RegisterForm from '@/components/registerForm';
+import RegisterForm from '@/components/forms/registerForm';
 import RegisterLoginSwitch from '@/components/registerLoginSwitch';
+import PageTitle from '@/components/ui/pageTitle';
 import { useIsFocused } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
 

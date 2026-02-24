@@ -2,7 +2,7 @@
 import SignUpBluetoothSignalsSubmitForm from "@/components/forms/signUpBluetoothSignalsSubmitFrom";
 import SignUpCodeSubmitForm from "@/components/forms/signUpCodeSubmitForm";
 import SignUpQrCodeSubmitForm from "@/components/forms/signUpQrCodeSubmitForm";
-import PageTitle from "@/components/pageTitle";
+import PageTitle from "@/components/ui/pageTitle";
 import { useLocalSearchParams } from "expo-router";
 import { View } from "react-native";
 

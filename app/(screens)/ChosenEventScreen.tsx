@@ -1,9 +1,9 @@
-import CatalogList from "@/components/catalogList";
-import NewButton from "@/components/newButton";
-import PadElement from "@/components/padElement";
-import PageTitle from "@/components/pageTitle";
-import SeparatingLine from "@/components/separatingLine";
-import TextBubble from "@/components/textBubble";
+import CatalogList from "@/components/lists/catalogList";
+import NewButton from "@/components/ui/newButton";
+import PadElement from "@/components/ui/padElement";
+import PageTitle from "@/components/ui/pageTitle";
+import SeparatingLine from "@/components/ui/separatingLine";
+import TextBubble from "@/components/ui/textBubble";
 import { useLocalSearchParams } from "expo-router";
 import { ScrollView, View } from "react-native";
 

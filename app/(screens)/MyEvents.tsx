@@ -1,9 +1,9 @@
-import BluetoothDeviceButton from "@/components/bluetoothDeviceButton";
-import EventList from "@/components/eventList";
-import NewButton from "@/components/newButton";
-import PadElement from "@/components/padElement";
-import PageTitle from "@/components/pageTitle";
-import SeparatingLine from "@/components/separatingLine";
+import EventList from "@/components/forms/eventList";
+import BluetoothDeviceButton from "@/components/ui/bluetoothDeviceButton";
+import NewButton from "@/components/ui/newButton";
+import PadElement from "@/components/ui/padElement";
+import PageTitle from "@/components/ui/pageTitle";
+import SeparatingLine from "@/components/ui/separatingLine";
 import { ScrollView, View } from "react-native";
 
 export default function MyEvents()

@@ -1,6 +1,7 @@
+import MessageBlock from '@/components/ui/messageBlock';
 import { useIsFocused } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { Platform, Text, View } from 'react-native';
+import { Platform, View } from 'react-native';
 import NfcManager, { Ndef, NfcEvents, NfcTech } from "react-native-nfc-manager";
 
 
@@ -130,49 +131,27 @@ export default function NFCScanScreen() {
   return (isFocused &&
     <View className='min-w-full min-h-full'>
 
-     {stateOfScan.state==="error" && 
-                 <View className='w-11/12 m-auto bg-custom-primary rounded-xl p-4'>
-              <View className='border-b'>
-                <Text className='text-xl mx-auto'>Hiba történt</Text>
-              </View>
-              <View className='mt-4'>
-                <Text className='mx-auto'>{stateOfScan.message}</Text>
-                <Text className='mx-auto'>Próbálkozzon újra</Text>
-              </View>
-            </View>}
+     {stateOfScan.state==="error" &&
+            <MessageBlock
+              title="Hiba történt"
+              message1={stateOfScan.message}
+              message2={"Próbálkozzon újra"}/> 
+            }
 
       {stateOfScan.state === "done" &&
-            <View className='w-11/12 m-auto bg-custom-primary rounded-xl p-4'>
-              <View className='border-b'>
-                <Text className='text-xl mx-auto'>Sikeres olvasás</Text>
-              </View>
-              <View className='mt-4'>
-                <Text className='mx-auto'>{stateOfScan.message}</Text>
-              </View>
-            </View>}
+              <MessageBlock
+              title="Sikeres olvasás"
+              message1={stateOfScan.message}/>
+              }
 
       {stateOfScan.state === "loading" &&
-            <View className='w-11/12 m-auto bg-custom-primary rounded-xl p-4'>
-              <View className='border-b'>
-                <Text className='text-xl mx-auto'></Text>
-              </View>
-              <View className='mt-4'>
-                <Text className='mx-auto'></Text>
-                <Text className='mx-auto'></Text>
-              </View>
-            </View>
+              <MessageBlock
+              title="Betöltés..."/>
       }
 
       {stateOfScan.state === "scanning" &&
-            <View className='w-11/12 m-auto bg-custom-primary rounded-xl p-4'>
-              <View className='border-b'>
-                <Text className='text-xl mx-auto'>Olvasás...</Text>
-              </View>
-              <View className='mt-4'>
-                <Text className='mx-auto'></Text>
-                <Text className='mx-auto'></Text>
-              </View>
-            </View>
+              <MessageBlock
+              title="Olvasás..."/>
       }
         
     </View>

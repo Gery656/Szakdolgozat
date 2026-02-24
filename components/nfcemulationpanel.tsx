@@ -1,9 +1,10 @@
-import { useContext, useState } from "react";
-import { Button, View } from "react-native";
+import { Image } from "expo-image";
+import { useContext, useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
 import { HCESessionContext, NFCTagType4, NFCTagType4NDEFContentType } from "react-native-hce";
 
 export function NfcEmulationPanel() {
-    const [wether, setwether] = useState(true);
+    const [canEmulate, setCanEmulate] = useState(true);
 
     const { session } = useContext(HCESessionContext);
 
@@ -30,27 +31,28 @@ export function NfcEmulationPanel() {
     const stopSession = async () => {
         await session.setEnabled(false);
     };
+
+    useEffect(()=>{
+        startSession();
+        setCanEmulate(false);
+
+        return ()=>{stopSession();setCanEmulate(true);};
+    })
+
     return (
-        <View>
-            <Button title='START' onPress={() => {
-                if (wether == true) {
-                    setwether(false);
-                    startSession();
-                }
-
-
-            }}></Button>
-
-            <View className={`h-40 w-40 ${wether ? 'bg-red-600' : 'bg-green-600'} m-auto my-5`}></View>
-
-            <Button title='STOP' onPress={() => {
-
-                if (wether == false) {
-                    setwether(true);
-                    stopSession();
-                }
-
-            }}></Button>
-        </View>
+            <View className="mx-auto mt-32">
+                <Image source={require("@/assets/images/nfc-tag.png")} style={styles.nfcScanIcon} />
+            </View>
     )
 }
+
+const styles = StyleSheet.create({
+    nfcScanIcon: {
+        height: 100,
+        width: 100,
+        bottom: 0,
+        left: 0,
+        margin: "auto"
+    }
+
+});

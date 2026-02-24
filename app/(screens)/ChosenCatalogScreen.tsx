@@ -1,7 +1,7 @@
-import AddUserToACatalogForm from "@/components/addUserToACatalogForm";
-import PadElement from "@/components/padElement";
-import PageTitle from "@/components/pageTitle";
-import UserList from "@/components/userList";
+import AddUserToACatalogForm from "@/components/forms/addUserToACatalogForm";
+import UserList from "@/components/forms/userList";
+import PadElement from "@/components/ui/padElement";
+import PageTitle from "@/components/ui/pageTitle";
 import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
 import { ScrollView, StyleSheet, Text, View } from "react-native";

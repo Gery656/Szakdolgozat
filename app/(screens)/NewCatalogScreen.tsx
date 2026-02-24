@@ -1,5 +1,5 @@
-import NewCatalogForm from "@/components/newCatalogForm";
-import PageTitle from "@/components/pageTitle";
+import NewCatalogForm from "@/components/forms/newCatalogForm";
+import PageTitle from "@/components/ui/pageTitle";
 import { useLocalSearchParams } from "expo-router";
 import { View } from "react-native";
 

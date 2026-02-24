@@ -1,5 +1,5 @@
 import SignUpModeSelectForm from "@/components/forms/signUpModeSelectForm";
-import PageTitle from "@/components/pageTitle";
+import PageTitle from "@/components/ui/pageTitle";
 import { View } from "react-native";
 
 export default function SignUpOnACatalogScreen(){

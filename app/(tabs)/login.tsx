@@ -1,8 +1,8 @@
 import { StyleSheet, View } from 'react-native';
 
-import LoginForm from '@/components/loginForm';
-import PageTitle from '@/components/pageTitle';
+import LoginForm from '@/components/forms/loginForm';
 import RegisterLoginSwitch from '@/components/registerLoginSwitch';
+import PageTitle from '@/components/ui/pageTitle';
 import { useIsFocused } from '@react-navigation/native';
 
 export default function Login() {
