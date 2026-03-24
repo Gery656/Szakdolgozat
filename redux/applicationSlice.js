@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const apiURL = "/api"
+export const apiURL = "http://192.168.168.206:8000/api"
 
 const initialState = {
     number: 0,
