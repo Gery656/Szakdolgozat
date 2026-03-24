@@ -1,12 +1,21 @@
-import { Link } from "expo-router";
+import { Link, usePathname } from "expo-router";
+import { useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 
-interface RegisterLoginProp{
-    isRegisterPage:boolean
-}
+export default function RegisterLoginSwitch(){
+    const currentRoute = usePathname();
+    const [isRegisterPage, setIsStartPage] = useState(true);
 
-export default function RegisterLoginSwitch({isRegisterPage}:RegisterLoginProp){
-
+    useEffect(()=>{
+        if (currentRoute.includes("index")) {
+            setIsStartPage(true);
+        }
+        else{
+            if (currentRoute.includes("login")) {
+                setIsStartPage(false);
+            }
+        }
+    })
     
 
     return(

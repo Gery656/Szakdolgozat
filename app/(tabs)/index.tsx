@@ -1,20 +1,20 @@
 
 import RegisterForm from '@/components/forms/registerForm';
-import RegisterLoginSwitch from '@/components/registerLoginSwitch';
 import PageTitle from '@/components/ui/pageTitle';
 import { useIsFocused } from '@react-navigation/native';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 
 export default function HomeScreen() {
   const isFocused = useIsFocused();
   return (isFocused &&
-    <View className='bg-custom-background w-full h-full '>
-      <PageTitle title='Regisztráció' backButton={false}></PageTitle>
-      <RegisterForm></RegisterForm>
-      <RegisterLoginSwitch isRegisterPage={true}></RegisterLoginSwitch>
+    <ScrollView className='bg-custom-background min-w-full min-h-full '>
 
-    </View>
+      <PageTitle title='Regisztráció' backButton={false}></PageTitle>
+
+      <RegisterForm></RegisterForm>
+
+    </ScrollView>
   );
 }
 
