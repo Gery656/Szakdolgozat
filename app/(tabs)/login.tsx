@@ -1,6 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 
 import LoginForm from '@/components/forms/loginForm';
+import PadElement from '@/components/ui/padElement';
 import PageTitle from '@/components/ui/pageTitle';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -9,11 +10,12 @@ export default function Login() {
   const isFocused = useIsFocused();
 
   return (isFocused &&
-        <View className='bg-custom-background w-full h-full'>
-          <PageTitle title='Bejelentkezés' backButton={false}></PageTitle>
-          <LoginForm></LoginForm>
-    
-        </View>
+    <View className='bg-custom-background w-full h-full'>
+      <PageTitle title='Bejelentkezés' backButton={false}></PageTitle>
+      <LoginForm></LoginForm>
+      <PadElement />
+
+    </View>
   );
 }
 

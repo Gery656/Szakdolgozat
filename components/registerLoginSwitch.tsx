@@ -7,18 +7,18 @@ export default function RegisterLoginSwitch(){
     const [isRegisterPage, setIsStartPage] = useState(true);
 
     useEffect(()=>{
-        if (currentRoute==="/") {
+        if (currentRoute==="/register") {
             setIsStartPage(true);
         }
         else{
-            if (currentRoute.includes("login")) {
+            if (currentRoute === "/login") {
                 setIsStartPage(false);
             }
         }
     })
     
 
-    return(
+    return(currentRoute !== "/" &&
         <View className="w-full h-16 mx-auto absolute bottom-0 flex flex-row ios:mb-10 android:mb-16">
             <View className="h-full w-1/2 p-2">
 
@@ -28,7 +28,7 @@ export default function RegisterLoginSwitch(){
                             if (router.canDismiss()) {
                                 router.dismissAll();
                             }
-                            router.dismissTo('/')
+                            router.dismissTo('/register')
                         }
                         }
                     >

@@ -2,6 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const apiURL = "http://192.168.168.206:8000/api"
 
+export async function save(key, value) {
+    return await SecureStore.setItemAsync(key, value);
+}
+
+export async function getValueFor(key) {
+    return await SecureStore.getItemAsync(key);
+}
+
 const initialState = {
     number: 0,
     token:null,

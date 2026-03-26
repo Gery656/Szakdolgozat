@@ -1,20 +1,32 @@
 
-import RegisterForm from '@/components/forms/registerForm';
-import PageTitle from '@/components/ui/pageTitle';
 import { useIsFocused } from '@react-navigation/native';
-import { ScrollView, StyleSheet } from 'react-native';
+import { router } from 'expo-router';
+import { useEffect } from 'react';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 export default function HomeScreen() {
   const isFocused = useIsFocused();
+
+  useEffect(() => {
+    async function loadingTime(x: number) {
+      await setTimeout(() => {
+        router.dismissTo('/login');
+      }, x);
+    }
+
+    loadingTime(2000);
+  });
   return (isFocused &&
-    <ScrollView className='bg-custom-background min-w-full min-h-full '>
+    <SafeAreaView className='bg-custom-background min-w-full min-h-full '>
 
-      <PageTitle title='Regisztráció' backButton={false}></PageTitle>
+      <View className="m-auto rounded-lg">
+        <ActivityIndicator className="m-auto scale-150" size={"large"} ></ActivityIndicator>
+        <Text></Text>
+      </View>
 
-      <RegisterForm></RegisterForm>
-
-    </ScrollView>
+    </SafeAreaView>
   );
 }
 

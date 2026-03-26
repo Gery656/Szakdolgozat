@@ -1,4 +1,4 @@
-import { apiURL, setToken, setUser } from "@/redux/applicationSlice";
+import { apiURL, save, setToken, setUser } from "@/redux/applicationSlice";
 import { router } from "expo-router";
 import { useState } from "react";
 import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
@@ -89,6 +89,7 @@ export default function LoginForm() {
                             dispatch(setUser(body.user));
                             emailErrors = [];
                             passwordErrors = [];
+                            save("token",body.token);
                             router.replace('/(screens)/MyEvents')
                         }
                     }

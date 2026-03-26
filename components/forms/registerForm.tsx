@@ -38,9 +38,9 @@ export default function RegisterForm() {
     return (isRegistrationSuccess ?
         <View className="mt-32">
             <MessageBlock
-            title="Success"
-            message1={"Successful registration!"}
-            message2={"Please verify your account with the email we sent you!"}
+            title="Siker!"
+            message1={"Sikeresen regisztrált!"}
+            message2={"Profilod aktiválásához kérlek nyisd meg az ellenőrző emailben kapott linket!"}
             />
         </View>
          :
@@ -66,6 +66,7 @@ export default function RegisterForm() {
 
             <Text className="text-lg mt-2">Jelszó</Text>
             <TextInput
+                secureTextEntry={true}
                 onChange={(event) => { setPassword1(event.nativeEvent.text) }}
                 className="px-2 border border-custom-secondary rounded-lg text-black text-lg h-12 bg-custom-background" />
             {password1Error.length !== 0 && password1Error.map((error, i) => <Text key={i} className="text-red-500">{error}</Text>)}
@@ -73,6 +74,7 @@ export default function RegisterForm() {
 
             <Text className="text-lg mt-2">Jelszó megismétlése</Text>
             <TextInput
+                secureTextEntry={true}
                 onChange={(event) => { setPassword2(event.nativeEvent.text) }}
                 className="px-2 border border-custom-secondary rounded-lg text-black text-lg h-12 bg-custom-background" />
             {password2Error.length !== 0 && password2Error.map((error, i) => <Text key={i} className="text-red-500">{error}</Text>)}
@@ -128,10 +130,6 @@ export default function RegisterForm() {
                                 setPassword2Error([...body.errors.password2]);
                             }
 
-                        }
-                        if (ans.status === 401) {
-                            setPassword1Error([...password1Error, body.error]);
-                            setPassword2Error([...password1Error, body.error]);
                         }
                         return;
                     }
