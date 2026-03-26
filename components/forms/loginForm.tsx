@@ -1,4 +1,4 @@
-import { apiURL, save, setToken, setUser } from "@/redux/applicationSlice";
+import { apiURL, save, setEvents, setToken, setUser } from "@/redux/applicationSlice";
 import { router } from "expo-router";
 import { useState } from "react";
 import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
@@ -67,8 +67,7 @@ export default function LoginForm() {
                             })
                         });
     
-                        setIsLoading(false);
-
+                        
                         if (!ans.ok) {
                             if (ans.status === 401) {
                                 emailErrors.push("Hibás email cím vagy jelszó!")
@@ -86,13 +85,27 @@ export default function LoginForm() {
 
                             const body = await ans.json();
                             dispatch(setToken(body.token));
-                            dispatch(setUser(body.user));
                             emailErrors = [];
                             passwordErrors = [];
                             save("token",body.token);
+
+                            const response = await fetch(apiURL + "/resources", {
+                                method: "GET",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "Accept": "application/json",
+                                    "Authorization": "Bearer " + body.token
+                                }
+                            });
+                            const recievedData = await response.json();
+                            dispatch(setUser(recievedData.user));
+                            dispatch(setEvents(recievedData.events));
+
                             router.replace('/(screens)/MyEvents')
                         }
                     }
+                    
+                    setIsLoading(false);
 
                     setError1(emailErrors);
                     setError2(passwordErrors);

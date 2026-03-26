@@ -1,29 +1,44 @@
 
+import { apiURL, getValueFor, setEvents, setUser } from '@/redux/applicationSlice';
 import { useIsFocused } from '@react-navigation/native';
 import { router } from 'expo-router';
 import { useEffect } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
 
 
 export default function HomeScreen() {
   const isFocused = useIsFocused();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    async function loadingTime(x: number) {
-      await setTimeout(() => {
-        router.dismissTo('/login');
-      }, x);
+    async function loading() {
+      const response = await fetch(apiURL + "/resources", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": "Bearer " + await getValueFor("token")
+        }
+      });
+      const recievedData = await response.json();
+      if (!response.ok) {
+        router.dismissTo('/login')
+      }
+      dispatch(setUser(recievedData.user));
+      dispatch(setEvents(recievedData.events));
+      router.dismissTo('/MyEvents');
     }
 
-    loadingTime(2000);
+    loading();
   });
+
   return (isFocused &&
     <SafeAreaView className='bg-custom-background min-w-full min-h-full '>
 
       <View className="m-auto rounded-lg">
         <ActivityIndicator className="m-auto scale-150" size={"large"} ></ActivityIndicator>
-        <Text></Text>
       </View>
 
     </SafeAreaView>
