@@ -1,17 +1,16 @@
 import { Catalog, Event } from "@/interfaces/types";
-import { getEvents } from "@/redux/applicationSlice";
-import { Link } from "expo-router";
+import { getEvents, getSelectedEvent, setSelectedCatalog } from "@/redux/applicationSlice";
+import { router } from "expo-router";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-interface CatalogListProps{
-    event_id:string
-}
-
-export default function CatalogList({event_id}:CatalogListProps){
+export default function CatalogList(){
 
     const events = useSelector(getEvents);
-    const event = events.find((event:Event)=>event.id.toString()===event_id);
+    const event_id = useSelector(getSelectedEvent);
+    const event = events.find((event:Event)=>event.id===event_id);
+
+    const dispatch = useDispatch();
 
         return(
             <View className="w-11/12 mx-auto">
@@ -19,11 +18,12 @@ export default function CatalogList({event_id}:CatalogListProps){
     
             {event.catalogs.map((catalog:Catalog,i:number) =>{
                 const date = new Date(catalog.created_at);
-                return(<Link
-                key={i}
-                href={{pathname: "/(screens)/ChosenCatalogScreen", params:{event_id: event_id,catalog_id: catalog.id}}}
-                asChild>
-                    <Pressable className="my-2">
+                return(
+                    <Pressable key={i} className="my-2"
+                    onPress={()=>{
+                        dispatch(setSelectedCatalog(catalog.id));
+                        router.push("/(screens)/ChosenCatalogScreen");
+                    }}>
                         <View className="w-full flex flex-row bg-custom-primary rounded-2xl shadow p-2">
                             <View className="w-5/6">
                                 <View className="my-auto w-full h-fit">
@@ -36,8 +36,8 @@ export default function CatalogList({event_id}:CatalogListProps){
                                             <Text className="my-auto">{catalog.signedUp.length}</Text>
                                         </View>
                                         <View className="w-1/2">
-                                            <Text className="mx-auto">{date.getFullYear() +". "+date.getMonth()+". "+date.getDay()+"."}</Text>
-                                            <Text className="mx-auto">{new Date(catalog.created_at).getTime()}</Text>
+                                            <Text className="mx-auto">{date.getFullYear() +". "+(date.getMonth()<10? "0":"")+date.getMonth()+". "+(date.getDate()<10? "0":"")+date.getDate()+"."}</Text>
+                                            <Text className="mx-auto">{(date.getHours()<10? "0":"")+date.getHours()+":"+(date.getMinutes()<10? "0":"")+date.getMinutes()+":"+(date.getSeconds()<10? "0":"")+date.getSeconds()}</Text>
                                         </View>
                                     </View>
                                 </View>
@@ -47,7 +47,7 @@ export default function CatalogList({event_id}:CatalogListProps){
                             </View>
                         </View>
                     </Pressable>
-                </Link>)}
+                )}
             )}
             </View>
         )

@@ -3,8 +3,8 @@ export interface Event{
 'name' :string
 'description' :string
 'user_id' : number
-'created_at' : Date
-'updated_at' : Date
+'created_at' : string
+'updated_at' : string
 'mandatoryTo' : MandatoryUser[]
 'catalogs' : Catalog[]
 }
@@ -34,5 +34,15 @@ export interface Catalog{
 export interface SignedUpUser{
 'name' : string
 'email' : string
-'time' : Date
+'time' : string
+}
+
+export interface BluetoothDevice{
+'id' : number
+'deviceName' : string
+'uuid' : string
+'code' : string
+'user_id' : number
+'created_at' : string
+'updated_at' : string
 }

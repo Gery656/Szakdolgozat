@@ -1,21 +1,25 @@
 import { Event } from "@/interfaces/types";
-import { getEvents } from "@/redux/applicationSlice";
+import { getEvents, setSelectedEvent } from "@/redux/applicationSlice";
 import { Image } from "expo-image";
-import { Link } from "expo-router";
+import { router } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function EventList(){
     const events = useSelector(getEvents);
+    const dispatch = useDispatch();
     return(
         <View className="w-11/12 mx-auto">
 
         {events.map((event : Event, i:number) =>
-            <Link
-            key={i}
-            href={{pathname: "/(screens)/ChosenEventScreen", params:{event_id: event.id}}}
-            asChild>
-                <Pressable className="my-2">
+
+                <Pressable
+                key={i}
+                onPress={()=>{
+                    dispatch(setSelectedEvent(event.id));
+                    router.push("/(screens)/ChosenEventScreen");
+                }}
+                className="my-2">
                     <View className="w-full flex flex-row bg-custom-primary rounded-2xl shadow p-2">
                         <View className="w-5/6">
                             <View className="my-auto w-full h-fit">
@@ -29,7 +33,6 @@ export default function EventList(){
                         </View>
                     </View>
                 </Pressable>
-            </Link>
         )}
         </View>
     )

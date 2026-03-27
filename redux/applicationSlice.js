@@ -16,6 +16,8 @@ const initialState = {
     token:null,
     user:null,
     events:null,
+    selectedEvent:null,
+    selectedCatalog:null,
 
 };
 
@@ -40,11 +42,17 @@ const ApplicationSlice = createSlice({
         },
         setEvents:(state,{payload})=>{
             state.events=payload
-        }
+        },
+        setSelectedEvent:(state,{payload})=>{
+            state.selectedEvent=payload
+        },
+        setSelectedCatalog:(state,{payload})=>{
+            state.selectedCatalog=payload
+        },
     }
 });
 
-export const {setNumber,inc,dec,setToken, setUser,setEvents} = ApplicationSlice.actions;
+export const {setNumber,inc,dec,setToken, setUser,setEvents,setSelectedEvent,setSelectedCatalog} = ApplicationSlice.actions;
 
 export default ApplicationSlice;
 
@@ -53,4 +61,6 @@ export const getNumber = (state) => state.number;
 export const getToken = (state) => state.token;
 export const getUser = (state) => state.user;
 export const getEvents = (state) => state.events;
+export const getSelectedEvent = (state) => state.selectedEvent;
+export const getSelectedCatalog = (state) => state.selectedCatalog;
 
