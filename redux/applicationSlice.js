@@ -40,7 +40,7 @@ const ApplicationSlice = createSlice({
         },
         setEvents:(state,{payload})=>{
             state.events=payload
-        },
+        }
     }
 });
 

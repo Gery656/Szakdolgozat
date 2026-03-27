@@ -9,6 +9,7 @@ import { ScrollView, View } from "react-native";
 
 export default function ChosenEventScreen(){
     const {event_id} = useLocalSearchParams();
+
     return(
         <ScrollView className="min-w-full min-h-full">
             

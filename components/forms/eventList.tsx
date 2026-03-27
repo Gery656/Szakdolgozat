@@ -1,26 +1,27 @@
+import { Event } from "@/interfaces/types";
+import { getEvents } from "@/redux/applicationSlice";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useSelector } from "react-redux";
 
 export default function EventList(){
-
-    const nums = [...Array(10).keys()];
+    const events = useSelector(getEvents);
     return(
         <View className="w-11/12 mx-auto">
 
-
-        {nums.map((num) =>
+        {events.map((event : Event, i:number) =>
             <Link
-            key={num}
-            href={{pathname: "/(screens)/ChosenEventScreen", params:{event_id: num}}}
+            key={i}
+            href={{pathname: "/(screens)/ChosenEventScreen", params:{event_id: event.id}}}
             asChild>
                 <Pressable className="my-2">
                     <View className="w-full flex flex-row bg-custom-primary rounded-2xl shadow p-2">
                         <View className="w-5/6">
                             <View className="my-auto w-full h-fit">
-                                <Text className="text-xl">{num}. Példa esemény</Text>
-                                <Text className="my-2">x db ellenőrzés történt</Text>
-                                <Text>Ez az általam rendezett példa esemény.</Text>
+                                <Text className="text-xl">{event.name}</Text>
+                                <Text className="my-2">{(event.catalogs).length} db ellenőrzés történt</Text>
+                                <Text>{event.description.split(' ').slice(0,10).join(' ')} ...</Text>
                             </View>
                         </View>
                         <View className="w-1/6">
