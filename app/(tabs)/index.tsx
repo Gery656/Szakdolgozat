@@ -1,5 +1,5 @@
 
-import { apiURL, getValueFor, setEvents, setToken, setUser } from '@/redux/applicationSlice';
+import { apiURL, getValueFor, save, setEvents, setToken, setUser } from '@/redux/applicationSlice';
 import { useIsFocused } from '@react-navigation/native';
 import { router } from 'expo-router';
 import { useEffect } from 'react';
@@ -24,16 +24,19 @@ export default function HomeScreen() {
       });
       const recievedData = await response.json();
       if (!response.ok) {
+        await save("token","");
         router.dismissTo('/login')
       }
+      else{
       dispatch(setToken(await getValueFor("token")));
       dispatch(setUser(recievedData.user));
       dispatch(setEvents(recievedData.events));
       router.dismissTo('/MyEvents');
+      }
     }
 
     loading();
-  });
+  },[]);
 
   return (isFocused &&
     <SafeAreaView className='bg-custom-background min-w-full min-h-full '>

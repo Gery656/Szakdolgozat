@@ -1,14 +1,14 @@
 import { Image } from "expo-image";
 import { Link } from "expo-router";
-import { Pressable, StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 export default function NewBluetoothDeviceButton(){
     return(
         <View className="w-11/12 mx-auto my-2">
                 <Link href={"/(screens)/NewBluetoothDeviceScreen"} asChild>
-                  <Pressable>
+                  <TouchableOpacity>
                       <Image source={require('@/assets/images/plus.png')} style={styles.image}/>
-                  </Pressable>
+                  </TouchableOpacity>
                 </Link>
         </View>
     )

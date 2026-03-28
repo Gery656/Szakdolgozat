@@ -72,6 +72,12 @@ export default function EventCreationForm(){
                                 setDescriptionError([...body.errors.description]);
                             }
                         }
+                        if (response.status === 401) {
+                            if (router.canDismiss()) {
+                                router.dismissAll()
+                            }
+                            router.dismissTo('/');
+                        }
                         setIsLoading(false);
                         return;
                     }
@@ -84,6 +90,13 @@ export default function EventCreationForm(){
                             "Authorization": "Bearer " + token
                         }
                     });
+                    if (!response2.ok) {
+                        if (response.status === 401) {
+                            router.dismissTo('/');
+                        }
+                        setIsLoading(false);
+                        return;
+                    }
                     const recievedData = await response2.json();
                     dispatch(setUser(recievedData.user));
                     dispatch(setEvents(recievedData.events));

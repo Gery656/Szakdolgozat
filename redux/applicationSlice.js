@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import * as SecureStore from 'expo-secure-store';
 
-export const apiURL = "http://192.168.168.206:8000/api"
+export const apiURL = "http://192.168.168.205:8000/api"
 
 export async function save(key, value) {
     return await SecureStore.setItemAsync(key, value);

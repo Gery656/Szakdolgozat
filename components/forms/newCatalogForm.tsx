@@ -1,30 +1,70 @@
+import { BluetoothDevice } from '@/interfaces/types';
+import { getUser } from '@/redux/applicationSlice';
 import { Picker } from '@react-native-picker/picker';
 import { router } from 'expo-router';
 import { useState } from "react";
-import { Platform, Pressable, StyleSheet, Switch, Text, TextInput, View } from "react-native";
+import { ActionSheetIOS, Platform, Pressable, StyleSheet, Switch, Text, TextInput, View } from "react-native";
+import { useSelector } from 'react-redux';
 
 interface NewCatalogFormProp{
     event_id:string
 }
 
 export default function NewCatalogForm({event_id}:NewCatalogFormProp) {
-
+    const [name,setName] = useState("");
+    const [nameError,setNameError] = useState<string[]>([]);
+    const [lengthInMin,setLengthInMin] = useState("");
+    const [lengthInMinError,setLengthInMinError] = useState<string[]>([]);
     const [catalogType, setCatalogType] = useState("code");
     const [isEnabled, setIsEnabled] = useState(false);
+    const [bluetooth_device_id,setBluetooth_device_id] = useState("");
+
+    const user = useSelector(getUser);
+
+    const devices:BluetoothDevice[] = user.bluetooth_devices;
+
+    
 
     return (
         <View>
             <View className="bg-[#F2EAD3] mt-10 w-11/12 h-fit py-3 px-3 rounded-2xl mx-auto shadow">
-
+                <Text>{name}</Text>
+                <Text>{lengthInMin}</Text>
+                <Text>{catalogType}</Text>
+                <Text>{isEnabled? "true": "false"}</Text>
+                <Text>{bluetooth_device_id}</Text>
                 <Text className="text-lg">Ellenőrzés neve:</Text>
-                <TextInput className="border border-custom-secondary rounded-lg text-black text-lg h-12 bg-custom-background" />
+                <TextInput className="border border-custom-secondary rounded-lg text-black text-lg h-12 bg-custom-background"
+                    onChange={(event)=>setName(event.nativeEvent.text)}
+                />
+                {nameError.length !== 0 && nameError.map((error, i) => <Text key={i} className="text-red-500">{error}</Text>)}
 
                 <Text className="text-lg mt-2">Hossz:</Text>
                 <View className='flex flex-row gap-2'>
-                    <TextInput keyboardType='numeric' className="w-10/12 border border-custom-secondary rounded-lg text-black text-lg h-12 bg-custom-background" />
+                    <TextInput  keyboardType='numeric' className="w-10/12 border border-custom-secondary rounded-lg text-black text-lg h-12 bg-custom-background"
+                        onChange={(event)=>setLengthInMin(event.nativeEvent.text)}
+                    />
                     <Text className='my-auto text-lg'>perc</Text>
                 </View>
-
+                {lengthInMinError.length !== 0 && lengthInMinError.map((error, i) => <Text key={i} className="text-red-500">{error}</Text>)}
+                {Platform.OS==="ios" && <Pressable className='h-10 border bg-custom-background'
+                onPress={()=>{
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: ['Cancel', 'Generate number', 'Reset','asd'],
+        userInterfaceStyle: 'light',
+      },
+      buttonIndex => {
+        // if (buttonIndex === 0) {
+        //   // cancel action
+        // } else if (buttonIndex === 1) {
+        //   setResult(String(Math.floor(Math.random() * 100) + 1));
+        // } else if (buttonIndex === 2) {
+        //   setResult('🔮');
+        // }
+      },
+    );
+                }}></Pressable>}
                 {Platform.OS==='android'
                     ? <Text className="text-lg mt-2">Ellenőrzés típusa:</Text>
                     : <View className='flex flex-row justify-between px-5'>
@@ -40,9 +80,17 @@ export default function NewCatalogForm({event_id}:NewCatalogFormProp) {
                         itemStyle={Platform.OS === "android" ? styles.androidPickerStyle : styles.iosPickerStyle}
                         selectedValue={catalogType}
 
-                        onValueChange={(itemValue, itemIndex) =>
+                        onValueChange={(itemValue, itemIndex) =>{
                             setCatalogType(itemValue)
+                            if (itemValue==="bluetooth") {
+                                setBluetooth_device_id(user.bluetooth_devices[0].id)
+                            }
+                            else{
+                                setBluetooth_device_id("")
+                            }
+                        }
                         }>
+
                         <Picker.Item label="Kód" value="code" />
                         <Picker.Item label="QR" value="qr" />
                         <Picker.Item label="Bluetooth" value="bluetooth" />
@@ -54,15 +102,14 @@ export default function NewCatalogForm({event_id}:NewCatalogFormProp) {
                             style={styles.iosPickerStyle}
                             dropdownIconColor={"#000000"}
                             itemStyle={styles.iosPickerStyle}
-                            selectedValue={catalogType}
+                            selectedValue={bluetooth_device_id}
 
                             onValueChange={(itemValue, itemIndex) =>
-                                null
+                                setBluetooth_device_id(itemValue)
                             }>
-                            <Picker.Item label="Kód" value="code" />
-                            <Picker.Item label="QR" value="qr" />
-                            <Picker.Item label="Bluetooth" value="bluetooth" />
-                            <Picker.Item label="NFC" value="nfc" />
+                            
+                            {user.bluetooth_devices.map((device:BluetoothDevice)=><Picker.Item label={device.deviceName} value={device.id} />)}
+
                         </Picker>}
                 </View>
 
@@ -75,15 +122,13 @@ export default function NewCatalogForm({event_id}:NewCatalogFormProp) {
                                 style={styles.androidPickerStyle}
                                 dropdownIconColor={"#000000"}
                                 itemStyle={styles.androidPickerStyle}
-                                selectedValue={catalogType}
+                                selectedValue={user.bluetooth_devices[0].id}
 
                                 onValueChange={(itemValue, itemIndex) =>
-                                    null
+                                    setBluetooth_device_id(itemValue)
                                 }>
-                                <Picker.Item label="Kód" value="code" />
-                                <Picker.Item label="QR" value="qr" />
-                                <Picker.Item label="Bluetooth" value="bluetooth" />
-                                <Picker.Item label="NFC" value="nfc" />
+                                {user.bluetooth_devices.map((device:BluetoothDevice)=><Picker.Item label={device.deviceName} value={device.id} />)}
+                                
                             </Picker>
                         </View>
                     </>}
@@ -118,9 +163,11 @@ const styles = StyleSheet.create({
         color: "#000000",
     },
     iosPickerStyle: {
+        height:120,
         color: "#000000",
         width: 150,
         marginLeft: "auto",
-        marginRight: "auto"
+        marginRight: "auto",
+        fontSize:16
     }
 })
