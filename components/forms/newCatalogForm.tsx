@@ -1,16 +1,13 @@
 import { BluetoothDevice } from '@/interfaces/types';
-import { getUser } from '@/redux/applicationSlice';
+import { apiURL, getSelectedEvent, getToken, getUser, setEvents, setUser } from '@/redux/applicationSlice';
 import { Picker } from '@react-native-picker/picker';
 import * as Location from 'expo-location';
+import { router } from 'expo-router';
 import { useState } from "react";
 import { ActionSheetIOS, ActivityIndicator, Platform, Pressable, StyleSheet, Switch, Text, TextInput, View } from "react-native";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-interface NewCatalogFormProp {
-    event_id: string
-}
-
-export default function NewCatalogForm({ event_id }: NewCatalogFormProp) {
+export default function NewCatalogForm() {
     const [name, setName] = useState("");
     const [nameError, setNameError] = useState<string[]>([]);
     const [lengthInMin, setLengthInMin] = useState("");
@@ -19,19 +16,22 @@ export default function NewCatalogForm({ event_id }: NewCatalogFormProp) {
     const [isEnabled, setIsEnabled] = useState(false);
     const [bluetooth_device_id, setBluetooth_device_id] = useState("");
     const [bluetooth_device_idError, setBluetooth_device_idError] = useState<string[]>([]);
-    
-    const [location, setLocation] = useState<Location.LocationObject | null>(null);
-    const [isLocationError, setIsLocationError] = useState(false);
-    const [isLoading,setIsLoading] = useState(false);
+
+    const [locationError, setLocationError] = useState<string[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const event_id = useSelector(getSelectedEvent);
 
     const user = useSelector(getUser);
-    const devices: BluetoothDevice[] = user.bluetooth_devices;
+    const token = useSelector(getToken);
+
+    const dispatch = useDispatch();
 
     async function getCurrentLocation() {
 
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
-            setIsLocationError(true);
+            setLocationError(["Helymeghatározás engedélyek hiányoznak!"]);
             return null;
         }
 
@@ -43,12 +43,6 @@ export default function NewCatalogForm({ event_id }: NewCatalogFormProp) {
     return (
         <View>
             <View className="bg-[#F2EAD3] mt-10 w-11/12 h-fit py-3 px-3 rounded-2xl mx-auto shadow">
-                <Text>{name}</Text>
-                <Text>{lengthInMin}</Text>
-                <Text>{catalogType}</Text>
-                <Text>{isEnabled ? "true" : "false"}</Text>
-                <Text>{bluetooth_device_id}</Text>
-                <Text>{JSON.stringify(location)}</Text>
                 <Text className="text-lg">Ellenőrzés neve:</Text>
                 <TextInput className="border border-custom-secondary rounded-lg text-black text-lg h-12 bg-custom-background"
                     onChange={(event) => setName(event.nativeEvent.text)}
@@ -151,7 +145,7 @@ export default function NewCatalogForm({ event_id }: NewCatalogFormProp) {
 
                 {bluetooth_device_idError.length !== 0 && bluetooth_device_idError.map((error, i) => <Text key={i} className="text-red-500">{error}</Text>)}
 
-                <View className='flex flex-row justify-center mt-5 gap-2'>
+                <View className='flex flex-row justify-center mt-5 mb-10 gap-2'>
                     <View>
                         <Text className='my-auto'>GPS</Text>
                     </View>
@@ -163,10 +157,11 @@ export default function NewCatalogForm({ event_id }: NewCatalogFormProp) {
                         value={isEnabled}
                     />
                 </View>
-                {isLocationError && <Text className="text-red-500">Sikertelen helymeghatározás! Kapcsolja be és engedélyezze a helymeghatározást!</Text>}
-                
+
+                {locationError.length !== 0 && locationError.map((error, i) => <Text key={i} className="text-red-500 m-auto">{error}</Text>)}
+
                 {isLoading ?
-                    <View className="w-full h-16 bg-custom-secondary mt-10 rounded-lg">
+                    <View className="w-full h-16 bg-custom-secondary rounded-lg">
                         <ActivityIndicator className="m-auto" size={"small"}></ActivityIndicator>
                     </View>
                     :
@@ -175,16 +170,16 @@ export default function NewCatalogForm({ event_id }: NewCatalogFormProp) {
                             setNameError([]);
                             setLengthInMinError([]);
                             setBluetooth_device_idError([]);
-                            setIsLocationError(false);
+                            setLocationError([]);
 
                             setIsLoading(true);
 
+                            let location = null;
                             if (isEnabled) {
-                                let location = null;
                                 try {
                                     location = await getCurrentLocation();
                                 } catch (error) {
-                                    setIsLocationError(true);
+                                    setLocationError(["Helymeghatározás ki van kapcsolva!"]);
                                     setIsLoading(false);
                                     return
                                 }
@@ -193,16 +188,101 @@ export default function NewCatalogForm({ event_id }: NewCatalogFormProp) {
                                     setIsLoading(false);
                                     return
                                 }
-
-                                setLocation(location);
-                                setIsLoading(false);
                             }
+
+                            let response = null;
+                            try {
+                                response = await fetch(apiURL + "/events/" + event_id + "/catalogs/create", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        "Accept": "application/json",
+                                        "Authorization": "Bearer " + token
+                                    },
+                                    body: JSON.stringify({
+                                        name: name,
+                                        lengthInMin: lengthInMin,
+                                        type: catalogType,
+                                        isGPSNeeded: isEnabled,
+                                        ...(bluetooth_device_id !== "" ? { bluetooth_device_id: bluetooth_device_id } : {}),
+                                        latitude: location?.coords.latitude ?? 0,
+                                        longitude: location?.coords.longitude ?? 0
+                                    })
+                                });
+                            } catch (ex) {
+                                setLocationError([...locationError, "Próbálkozzon újra!"])
+                                setIsLoading(false);
+                                return;
+                            }
+                            const body = await response.json();
+                            console.log(body)
+
+                            if (!response.ok) {
+                                if (response.status === 422) {
+                                    if (body.errors.name) {
+                                        setNameError([...body.errors.name]);
+                                    }
+                                    if (body.errors.lengthInMin) {
+                                        setLengthInMinError([...body.errors.lengthInMin]);
+                                    }
+                                    if (body.errors.isGPSNeeded) {
+                                        setLocationError([...locationError, ...body.errors.isGPSNeeded]);
+                                    }
+                                    if (body.errors.bluetooth_device_id) {
+                                        setBluetooth_device_idError([...body.errors.bluetooth_device_id]);
+                                    }
+                                    if (body.errors.latitude) {
+                                        setLocationError([...locationError, ...body.errors.isGPSNeeded]);
+                                    }
+                                    if (body.errors.longitude) {
+                                        setLocationError([...locationError, ...body.errors.isGPSNeeded]);
+                                    }
+                                }
+                                if (response.status === 404) {
+                                    setLocationError([...locationError, ...body.error])
+                                }
+                                if (response.status === 401) {
+                                    if (router.canDismiss()) {
+                                        router.dismissAll()
+                                    }
+                                    router.dismissTo('/');
+                                }
+
+                                setIsLoading(false);
+                                return;
+                            }
+                            
+                            const response2 = await fetch(apiURL + "/resources", {
+                                method: "GET",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "Accept": "application/json",
+                                    "Authorization": "Bearer " + token
+                                }
+                            });
+
+                            if (!response2.ok) {
+                                if (response2.status === 401) {
+                                    if (router.canDismiss()) {
+                                        router.dismissAll()
+                                    }
+                                    router.dismissTo('/');
+                                }
+
+                                setIsLoading(false);
+                                return;
+                            }
+                            const recievedData = await response2.json();
+                            dispatch(setUser(recievedData.user));
+                            dispatch(setEvents(recievedData.events));
+
+                            setIsLoading(false);
 
 
 
                             // router.push({pathname: "/(screens)/OnSuccessfulCatalogCreation",params: {event_id:event_id,catalog_id:"2",mode:catalogType}})
                         }}
-                        className="w-full h-16 bg-custom-secondary mt-10 rounded-lg">
+                        className="w-full h-16 bg-custom-secondary mt-2 rounded-lg">
                         <Text className="text-[#F5F5F5] m-auto">Indítás</Text>
                     </Pressable>
                 }

@@ -84,6 +84,9 @@ export default function NewBluetoothDeviceForm() {
                             }
                         }
                         if (response.status === 401) {
+                            if (router.canDismiss()) {
+                                router.dismissAll()
+                            }
                             router.dismissTo('/');
                         }
                         setIsLoading(false);
