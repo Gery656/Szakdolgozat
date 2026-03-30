@@ -8,7 +8,6 @@ interface TitleProp{
 }
 
 export default function PageTitle({title,backButton}:TitleProp){
-
     return(
               <View className='bg-custom-primary h-24 mt-20 w-11/12 rounded-2xl mx-auto shadow flex flex-row'>
                 {backButton &&

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import * as SecureStore from 'expo-secure-store';
 
 export const apiURL = "http://192.168.168.205:8000/api"
+export const storageURL = "http://192.168.168.205:8000/storage"
 
 export async function save(key, value) {
     return await SecureStore.setItemAsync(key, value);
@@ -18,7 +19,7 @@ const initialState = {
     events:null,
     selectedEvent:null,
     selectedCatalog:null,
-    sharedEvent:null,
+    sharedCatalog:null,
 
 };
 
@@ -50,13 +51,13 @@ const ApplicationSlice = createSlice({
         setSelectedCatalog:(state,{payload})=>{
             state.selectedCatalog=payload
         },
-        setSharedEvent:(state,{payload})=>{
-            state.sharedEvent=payload
+        setSharedCatalog:(state,{payload})=>{
+            state.sharedCatalog=payload
         },
     }
 });
 
-export const {setNumber,inc,dec,setToken, setUser,setEvents,setSelectedEvent,setSelectedCatalog,setSharedEvent} = ApplicationSlice.actions;
+export const {setNumber,inc,dec,setToken, setUser,setEvents,setSelectedEvent,setSelectedCatalog,setSharedCatalog} = ApplicationSlice.actions;
 
 export default ApplicationSlice;
 
@@ -67,5 +68,5 @@ export const getUser = (state) => state.user;
 export const getEvents = (state) => state.events;
 export const getSelectedEvent = (state) => state.selectedEvent;
 export const getSelectedCatalog = (state) => state.selectedCatalog;
-export const getSharedEvent = (state) => state.sharedEvent;
+export const getSharedCatalog = (state) => state.sharedCatalog;
 

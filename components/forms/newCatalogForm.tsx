@@ -1,5 +1,5 @@
 import { BluetoothDevice } from '@/interfaces/types';
-import { apiURL, getSelectedEvent, getToken, getUser, setEvents, setUser } from '@/redux/applicationSlice';
+import { apiURL, getSelectedEvent, getToken, getUser, setEvents, setSharedCatalog, setUser } from '@/redux/applicationSlice';
 import { Picker } from '@react-native-picker/picker';
 import * as Location from 'expo-location';
 import { router } from 'expo-router';
@@ -13,7 +13,7 @@ export default function NewCatalogForm() {
     const [lengthInMin, setLengthInMin] = useState("");
     const [lengthInMinError, setLengthInMinError] = useState<string[]>([]);
     const [catalogType, setCatalogType] = useState("code");
-    const [isEnabled, setIsEnabled] = useState(false);
+    const [isGPSNeeded, setIsGPSNeeded] = useState(false);
     const [bluetooth_device_id, setBluetooth_device_id] = useState("");
     const [bluetooth_device_idError, setBluetooth_device_idError] = useState<string[]>([]);
 
@@ -103,7 +103,7 @@ export default function NewCatalogForm() {
 
                         <Picker.Item label="Kód" value="code" />
                         <Picker.Item label="QR" value="qr" />
-                        <Picker.Item label="Bluetooth" value="bluetooth" />
+                        {user.bluetooth_devices.length!==0 && <Picker.Item label="Bluetooth" value="bluetooth" />}
                         {Platform.OS === "android" && <Picker.Item label="NFC" value="nfc" />}
                     </Picker>
                     {/* the second Picker for IOS */}
@@ -151,10 +151,10 @@ export default function NewCatalogForm() {
                     </View>
                     <Switch
                         trackColor={{ false: '#767577', true: '#81b0ff' }}
-                        thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                        thumbColor={isGPSNeeded ? '#f5dd4b' : '#f4f3f4'}
                         ios_backgroundColor="#3e3e3e"
-                        onValueChange={() => { setIsEnabled(!isEnabled) }}
-                        value={isEnabled}
+                        onValueChange={() => { setIsGPSNeeded(!isGPSNeeded) }}
+                        value={isGPSNeeded}
                     />
                 </View>
 
@@ -175,7 +175,7 @@ export default function NewCatalogForm() {
                             setIsLoading(true);
 
                             let location = null;
-                            if (isEnabled) {
+                            if (isGPSNeeded) {
                                 try {
                                     location = await getCurrentLocation();
                                 } catch (error) {
@@ -203,7 +203,7 @@ export default function NewCatalogForm() {
                                         name: name,
                                         lengthInMin: lengthInMin,
                                         type: catalogType,
-                                        isGPSNeeded: isEnabled,
+                                        isGPSNeeded: isGPSNeeded,
                                         ...(bluetooth_device_id !== "" ? { bluetooth_device_id: bluetooth_device_id } : {}),
                                         latitude: location?.coords.latitude ?? 0,
                                         longitude: location?.coords.longitude ?? 0
@@ -215,7 +215,6 @@ export default function NewCatalogForm() {
                                 return;
                             }
                             const body = await response.json();
-                            console.log(body)
 
                             if (!response.ok) {
                                 if (response.status === 422) {
@@ -251,7 +250,7 @@ export default function NewCatalogForm() {
                                 setIsLoading(false);
                                 return;
                             }
-                            
+
                             const response2 = await fetch(apiURL + "/resources", {
                                 method: "GET",
                                 headers: {
@@ -272,15 +271,14 @@ export default function NewCatalogForm() {
                                 setIsLoading(false);
                                 return;
                             }
+
                             const recievedData = await response2.json();
                             dispatch(setUser(recievedData.user));
                             dispatch(setEvents(recievedData.events));
-
+                            dispatch(setSharedCatalog(body.id))
                             setIsLoading(false);
 
-
-
-                            // router.push({pathname: "/(screens)/OnSuccessfulCatalogCreation",params: {event_id:event_id,catalog_id:"2",mode:catalogType}})
+                            router.push("/OnSuccessfulCatalogCreation");
                         }}
                         className="w-full h-16 bg-custom-secondary mt-2 rounded-lg">
                         <Text className="text-[#F5F5F5] m-auto">Indítás</Text>

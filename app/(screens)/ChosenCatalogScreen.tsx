@@ -2,6 +2,8 @@ import AddUserToACatalogForm from "@/components/forms/addUserToACatalogForm";
 import UserList from "@/components/forms/userList";
 import PadElement from "@/components/ui/padElement";
 import PageTitle from "@/components/ui/pageTitle";
+import SeparatingLine from "@/components/ui/separatingLine";
+import ShareButton from "@/components/ui/shareButton";
 import { Catalog, Event } from "@/interfaces/types";
 import { getEvents, getSelectedCatalog, getSelectedEvent } from "@/redux/applicationSlice";
 import { Image } from "expo-image";
@@ -34,6 +36,12 @@ export default function ChosenCatalogScreen() {
                     </View>
                 </View>
             </View>
+
+            <View className="w-11/12 h-10 mx-auto felx flex-row gap-2 mt-3">
+                <ShareButton title="Megnyitás"></ShareButton>
+            </View>
+
+            <SeparatingLine />
 
             <AddUserToACatalogForm />
 
