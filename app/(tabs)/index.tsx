@@ -1,5 +1,5 @@
 
-import { apiURL, getValueFor, save, setEvents, setToken, setUser } from '@/redux/applicationSlice';
+import { apiURL, getValueFor, reset, save, setEvents, setToken, setUser } from '@/redux/applicationSlice';
 import { useIsFocused } from '@react-navigation/native';
 import { router } from 'expo-router';
 import { useEffect } from 'react';
@@ -14,6 +14,7 @@ export default function HomeScreen() {
 
   useEffect(() => {
     async function loading() {
+      dispatch(reset())
       const response = await fetch(apiURL + "/resources", {
         method: "GET",
         headers: {

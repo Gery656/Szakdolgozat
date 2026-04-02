@@ -91,7 +91,10 @@ export default function EventCreationForm(){
                         }
                     });
                     if (!response2.ok) {
-                        if (response.status === 401) {
+                        if (response2.status === 401) {
+                            if (router.canDismiss()) {
+                                router.dismissAll()
+                            }
                             router.dismissTo('/');
                         }
                         setIsLoading(false);

@@ -1,5 +1,5 @@
 import AddUserToACatalogForm from "@/components/forms/addUserToACatalogForm";
-import UserList from "@/components/forms/userList";
+import UserList from "@/components/lists/userList";
 import PadElement from "@/components/ui/padElement";
 import PageTitle from "@/components/ui/pageTitle";
 import SeparatingLine from "@/components/ui/separatingLine";

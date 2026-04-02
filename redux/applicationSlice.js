@@ -54,10 +54,18 @@ const ApplicationSlice = createSlice({
         setSharedCatalog:(state,{payload})=>{
             state.sharedCatalog=payload
         },
+        reset:(state)=>{
+            state.events = null
+            state.token = null
+            state.user = null
+            state.selectedEvent = null
+            state.selectedCatalog = null
+            state.sharedCatalog=null
+        }
     }
 });
 
-export const {setNumber,inc,dec,setToken, setUser,setEvents,setSelectedEvent,setSelectedCatalog,setSharedCatalog} = ApplicationSlice.actions;
+export const {setNumber,inc,dec,setToken, setUser,setEvents,setSelectedEvent,setSelectedCatalog,setSharedCatalog,reset} = ApplicationSlice.actions;
 
 export default ApplicationSlice;
 

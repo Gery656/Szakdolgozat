@@ -1,4 +1,6 @@
 import CatalogList from "@/components/lists/catalogList";
+import EditButton from "@/components/ui/editButton";
+import MandatoryParticipantsButton from "@/components/ui/mandatoryParticipantsButton";
 import NewButton from "@/components/ui/newButton";
 import PadElement from "@/components/ui/padElement";
 import PageTitle from "@/components/ui/pageTitle";
@@ -28,8 +30,10 @@ export default function ChosenEventScreen(){
 
             <TextBubble text={event.description}/>
 
-            <View className="w-11/12 h-10 mx-auto felx flex-row gap-2 mt-3">
-                <NewButton title="Új" destination={{pathname:"/(screens)/NewCatalogScreen",params:{event_id:event_id}}}></NewButton>
+            <View className="w-11/12 mx-auto felx flex-row flex-wrap gap-2 mt-3">
+                <EditButton title="Szerkesztés" destination={"/(screens)/NewCatalogScreen"}></EditButton>
+                <MandatoryParticipantsButton title="Résztvevők" destination={"/AddMandatoryUsersScreen"}></MandatoryParticipantsButton>
+                <NewButton title="Új" destination={"/(screens)/NewCatalogScreen"}></NewButton>
             </View>
 
             <SeparatingLine/>
