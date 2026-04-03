@@ -27,7 +27,8 @@ export default function TabLayout() {
 
       <Stack.Screen name="Profile" options={{headerShown:false}} />
 
-      <Stack.Screen name="AddMandatoryUsersScreen" options={{headerShown:false}} />
+      <Stack.Screen name="MandatoryUsersScreen" options={{headerShown:false}} />
+      <Stack.Screen name="AddMandatoryUsersScreen" options={{headerShown:false, animation:"fade"}} />
 
     </Stack>
 

@@ -1,16 +1,19 @@
-import AddMethodChoice from "@/components/ui/addMethodChoice";
+import EmailAddMandatoryUsersToEventForm from "@/components/forms/emailAddMandatoryUsersToEventForm";
+import PadElement from "@/components/ui/padElement";
 import PageTitle from "@/components/ui/pageTitle";
-import SeparatingLine from "@/components/ui/separatingLine";
-import { ScrollView } from "react-native";
+import { getAddMandatoryUserMethod } from "@/redux/applicationSlice";
+import { KeyboardAvoidingView, ScrollView } from "react-native";
+import { useSelector } from "react-redux";
 
 export default function AddMandatoryUsersScreen(){
+    const addMethod = useSelector(getAddMandatoryUserMethod);
     return(
-        <ScrollView className="min-w-full min-h-full">
-            <PageTitle title="Résztvevők" backButton={true}/>
-
-            <AddMethodChoice />
-
-            <SeparatingLine />
-        </ScrollView>
+        <KeyboardAvoidingView behavior="padding" className="min-w-full min-h-full">
+            <ScrollView>
+                <PageTitle title="Résztvevők" backButton={true}/>
+                {addMethod==="email" && <EmailAddMandatoryUsersToEventForm />}
+                <PadElement />
+            </ScrollView>
+        </KeyboardAvoidingView>
     )
 }

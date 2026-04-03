@@ -32,7 +32,7 @@ export default function ChosenEventScreen(){
 
             <View className="w-11/12 mx-auto felx flex-row flex-wrap gap-2 mt-3">
                 <EditButton title="Szerkesztés" destination={"/(screens)/NewCatalogScreen"}></EditButton>
-                <MandatoryParticipantsButton title="Résztvevők" destination={"/AddMandatoryUsersScreen"}></MandatoryParticipantsButton>
+                <MandatoryParticipantsButton title="Résztvevők" destination={"/MandatoryUsersScreen"}></MandatoryParticipantsButton>
                 <NewButton title="Új" destination={"/(screens)/NewCatalogScreen"}></NewButton>
             </View>
 

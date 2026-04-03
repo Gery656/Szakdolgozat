@@ -20,6 +20,7 @@ const initialState = {
     selectedEvent:null,
     selectedCatalog:null,
     sharedCatalog:null,
+    addMandatoryUserMethod : "email"
 
 };
 
@@ -61,11 +62,19 @@ const ApplicationSlice = createSlice({
             state.selectedEvent = null
             state.selectedCatalog = null
             state.sharedCatalog=null
+        },
+        setAddMandatoryUserMethod:(state,{payload})=>{
+            if (payload==="email" || payload==="identifier") {
+                state.addMandatoryUserMethod = payload
+            }
+            else{
+                state.addMandatoryUserMethod = "email"
+            }
         }
     }
 });
 
-export const {setNumber,inc,dec,setToken, setUser,setEvents,setSelectedEvent,setSelectedCatalog,setSharedCatalog,reset} = ApplicationSlice.actions;
+export const {setNumber,inc,dec,setToken, setUser,setEvents,setSelectedEvent,setSelectedCatalog,setSharedCatalog,reset,setAddMandatoryUserMethod} = ApplicationSlice.actions;
 
 export default ApplicationSlice;
 
@@ -77,4 +86,5 @@ export const getEvents = (state) => state.events;
 export const getSelectedEvent = (state) => state.selectedEvent;
 export const getSelectedCatalog = (state) => state.selectedCatalog;
 export const getSharedCatalog = (state) => state.sharedCatalog;
+export const getAddMandatoryUserMethod = (state) => state.addMandatoryUserMethod;
 
