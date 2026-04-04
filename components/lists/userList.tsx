@@ -17,6 +17,7 @@ export default function UserList() {
                     <View className="w-1/2">
                         <Text className="text-lg">{user.name}</Text>
                         <Text>{user.email}</Text>
+                        <Text>{user.identifier}</Text>
                     </View>
                     <View className="w-1/2">
                         <Text className="m-auto text-lg">{user.time}</Text>{/**2025.12.25. - 13:29 */}

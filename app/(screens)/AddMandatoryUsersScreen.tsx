@@ -1,4 +1,5 @@
 import EmailAddMandatoryUsersToEventForm from "@/components/forms/emailAddMandatoryUsersToEventForm";
+import IdentifierAddMandatoryUsersToEventForm from "@/components/forms/identifierAddMandatoryUsersToEventForm";
 import PadElement from "@/components/ui/padElement";
 import PageTitle from "@/components/ui/pageTitle";
 import { getAddMandatoryUserMethod } from "@/redux/applicationSlice";
@@ -12,6 +13,8 @@ export default function AddMandatoryUsersScreen(){
             <ScrollView>
                 <PageTitle title="Résztvevők" backButton={true}/>
                 {addMethod==="email" && <EmailAddMandatoryUsersToEventForm />}
+                {addMethod==="identifier" && <IdentifierAddMandatoryUsersToEventForm />}
+
                 <PadElement />
             </ScrollView>
         </KeyboardAvoidingView>

@@ -12,7 +12,12 @@ export default function MandatoryUserList() {
     return (
         <View className="w-full mt-5">
             {event.mandatoryTo.map((user:MandatoryUser, i:number) =>
-                <MandatoryUserRecord key={i} name={user.name} email={user.email} isColored={i % 2 === 0}/>
+                <MandatoryUserRecord key={i} 
+                    name={user.name} 
+                    email={user.email} 
+                    identifier={user.identifier}
+                    isColored={i % 2 === 0}
+                />
             )}
         </View>
     )

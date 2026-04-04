@@ -1,5 +1,6 @@
 import MandatoryUserList from "@/components/lists/mandatoryUserList";
 import AddMethodChoice from "@/components/ui/addMethodChoice";
+import PadElement from "@/components/ui/padElement";
 import PageTitle from "@/components/ui/pageTitle";
 import SeparatingLine from "@/components/ui/separatingLine";
 import { Event } from "@/interfaces/types";
@@ -20,6 +21,8 @@ export default function MandatoryUsersScreen(){
             <SeparatingLine />
 
             <MandatoryUserList />
+
+            <PadElement />
 
         </ScrollView>
     )

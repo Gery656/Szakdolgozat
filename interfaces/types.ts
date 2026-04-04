@@ -12,6 +12,7 @@ export interface Event{
 export interface MandatoryUser{
     'name' : string
     'email' : string
+    'identifier': string
 }
 
 export interface Catalog{
@@ -34,6 +35,7 @@ export interface Catalog{
 export interface SignedUpUser{
 'name' : string
 'email' : string
+'identifier' : string
 'time' : string
 }
 
