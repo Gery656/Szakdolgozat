@@ -1,15 +1,19 @@
-import { apiURL, getToken, setEvents, setUser } from "@/redux/applicationSlice";
+import { Event } from "@/interfaces/types";
+import { apiURL, getEvents, getSelectedEvent, getToken, setEvents, setUser } from "@/redux/applicationSlice";
 import { router } from "expo-router";
 import { useState } from "react";
 import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function EventCreationForm() {
+export default function UpdateEventForm() {
+    const event_id = useSelector(getSelectedEvent);
+    const events = useSelector(getEvents);
+    const event = events.find((event: Event) => event.id === event_id);
     const token = useSelector(getToken);
 
-    const [name, setName] = useState("");
+    const [name, setName] = useState(event.name);
     const [nameError, setNameError] = useState<string[]>([]);
-    const [description, setDescription] = useState("");
+    const [description, setDescription] = useState(event.description);
     const [descriptionError, setDescriptionError] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -22,7 +26,7 @@ export default function EventCreationForm() {
 
         setIsLoading(true);
 
-        const response = await fetch(apiURL + "/events/create", {
+        const response = await fetch(apiURL + "/events/" + event_id, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -30,8 +34,8 @@ export default function EventCreationForm() {
                 "Authorization": "Bearer " + token
             },
             body: JSON.stringify({
-                name: name,
-                description: description
+                ...(name !== event.name ? { name: name } : {}),
+                ...(description !== event.description ? { description: description } : {})
             })
         });
 
@@ -80,7 +84,7 @@ export default function EventCreationForm() {
 
         setIsLoading(false);
 
-        router.dismissTo("/MyEvents");
+        router.dismissTo("/ChosenEventScreen");
     }
 
     return (
@@ -88,6 +92,7 @@ export default function EventCreationForm() {
 
             <Text className="text-lg">Esemény neve</Text>
             <TextInput
+                defaultValue={name}
                 className="border border-custom-secondary rounded-lg text-black text-lg h-12 bg-custom-background"
                 onChange={(event) => { setName(event.nativeEvent.text) }}
             />
@@ -95,6 +100,7 @@ export default function EventCreationForm() {
 
             <Text className="text-lg mt-2">Rövid leírás</Text>
             <TextInput
+                defaultValue={description}
                 editable
                 multiline={true}
                 numberOfLines={4}
@@ -111,7 +117,7 @@ export default function EventCreationForm() {
                 <Pressable
                     className="w-full h-16 bg-custom-secondary mt-10 rounded-lg"
                     onPress={newEventOnPress}>
-                    <Text className="text-[#F5F5F5] m-auto">Létrehozás</Text>
+                    <Text className="text-[#F5F5F5] m-auto">Módosítás</Text>
                 </Pressable>
             }
         </View>

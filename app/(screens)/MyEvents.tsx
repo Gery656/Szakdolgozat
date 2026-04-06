@@ -1,6 +1,5 @@
 import EventList from "@/components/forms/eventList";
 import BluetoothDeviceButton from "@/components/ui/bluetoothDeviceButton";
-import EditButton from "@/components/ui/editButton";
 import NewButton from "@/components/ui/newButton";
 import PadElement from "@/components/ui/padElement";
 import PageTitle from "@/components/ui/pageTitle";
@@ -26,9 +25,8 @@ export default function MyEvents() {
 
             <PageTitle title="Eseményeim" backButton={false} isSettings={true}></PageTitle>
             <View className="w-11/12 mx-auto flex flex-row flex-wrap gap-2 mt-3">
-                <BluetoothDeviceButton title="Bluetooth"></BluetoothDeviceButton>
-                <EditButton title="Szerkesztés" destination={"/NewEventScreen"}></EditButton>
                 <NewButton title="Új" destination={'/NewEventScreen'}></NewButton>
+                <BluetoothDeviceButton title="Bluetooth"></BluetoothDeviceButton>
             </View>
 
             <SeparatingLine />

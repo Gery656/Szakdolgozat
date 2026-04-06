@@ -31,7 +31,7 @@ export default function ChosenEventScreen(){
             <TextBubble text={event.description}/>
 
             <View className="w-11/12 mx-auto felx flex-row flex-wrap gap-2 mt-3">
-                <EditButton title="Szerkesztés" destination={"/(screens)/NewCatalogScreen"}></EditButton>
+                <EditButton title="Szerkesztés" destination={"/UpdateEventScreen"}></EditButton>
                 <MandatoryParticipantsButton title="Résztvevők" destination={"/MandatoryUsersScreen"}></MandatoryParticipantsButton>
                 <NewButton title="Új" destination={"/(screens)/NewCatalogScreen"}></NewButton>
             </View>

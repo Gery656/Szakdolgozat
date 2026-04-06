@@ -1,5 +1,6 @@
 import AddUserToACatalogForm from "@/components/forms/addUserToACatalogForm";
 import UserList from "@/components/lists/userList";
+import EditButton from "@/components/ui/editButton";
 import PadElement from "@/components/ui/padElement";
 import PageTitle from "@/components/ui/pageTitle";
 import SeparatingLine from "@/components/ui/separatingLine";
@@ -36,9 +37,12 @@ export default function ChosenCatalogScreen() {
                     </View>
                 </View>
             </View>
-
+            <Text>{catalog.isGPSNeeded ? "true" : "false"}</Text>
+            <Text>{catalog.latitude ?? "null"}</Text>
+            <Text>{catalog.longitude ?? "null"}</Text>
             <View className="w-11/12 h-10 mx-auto felx flex-row gap-2 mt-3">
                 <ShareButton title="Megnyitás"></ShareButton>
+                <EditButton title="Szerkesztés" destination={"/UpdateCatalogScreen"}></EditButton>
             </View>
 
             <SeparatingLine />
