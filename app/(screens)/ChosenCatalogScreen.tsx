@@ -18,6 +18,7 @@ export default function ChosenCatalogScreen() {
     const event = events.find((event:Event)=>event.id===event_id);
     const catalog = event.catalogs.find((catalog:Catalog)=>catalog.id===catalog_id);
     
+    const catalog_start_date = new Date(catalog.created_at)
     return (
         <ScrollView className="min-w-full min-h-full">
 
@@ -37,9 +38,12 @@ export default function ChosenCatalogScreen() {
                     </View>
                 </View>
             </View>
-            <Text>{catalog.isGPSNeeded ? "true" : "false"}</Text>
-            <Text>{catalog.latitude ?? "null"}</Text>
-            <Text>{catalog.longitude ?? "null"}</Text>
+
+            <View>
+                <Text>{catalog.lengthInMin}</Text>
+                <Text>{catalog_start_date.getFullYear() + ". "+catalog_start_date.getMonth()+". "+catalog_start_date.getDate()+". "+catalog_start_date.getHours()+":"+catalog_start_date.getMinutes()+"-tól "+catalog.lengthInMin+" percig tart."}</Text>
+            </View>
+
             <View className="w-11/12 h-10 mx-auto felx flex-row gap-2 mt-3">
                 <ShareButton title="Megnyitás"></ShareButton>
                 <EditButton title="Szerkesztés" destination={"/UpdateCatalogScreen"}></EditButton>

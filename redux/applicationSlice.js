@@ -19,6 +19,7 @@ const initialState = {
     events:null,
     selectedEvent:null,
     selectedCatalog:null,
+    selectedBluetoothDevice:null,
     sharedCatalog:null,
     addMandatoryUserMethod : "email"
 
@@ -52,6 +53,9 @@ const ApplicationSlice = createSlice({
         setSelectedCatalog:(state,{payload})=>{
             state.selectedCatalog=payload
         },
+        setSelectedBluetoothDevice:(state,{payload})=>{
+            state.selectedBluetoothDevice=payload
+        },
         setSharedCatalog:(state,{payload})=>{
             state.sharedCatalog=payload
         },
@@ -74,7 +78,7 @@ const ApplicationSlice = createSlice({
     }
 });
 
-export const {setNumber,inc,dec,setToken, setUser,setEvents,setSelectedEvent,setSelectedCatalog,setSharedCatalog,reset,setAddMandatoryUserMethod} = ApplicationSlice.actions;
+export const {setNumber,inc,dec,setToken, setUser,setEvents,setSelectedEvent,setSelectedCatalog,setSelectedBluetoothDevice,setSharedCatalog,reset,setAddMandatoryUserMethod} = ApplicationSlice.actions;
 
 export default ApplicationSlice;
 
@@ -85,6 +89,7 @@ export const getUser = (state) => state.user;
 export const getEvents = (state) => state.events;
 export const getSelectedEvent = (state) => state.selectedEvent;
 export const getSelectedCatalog = (state) => state.selectedCatalog;
+export const getSelectedBluetoothDevice = (state) => state.selectedBluetoothDevice;
 export const getSharedCatalog = (state) => state.sharedCatalog;
 export const getAddMandatoryUserMethod = (state) => state.addMandatoryUserMethod;
 
