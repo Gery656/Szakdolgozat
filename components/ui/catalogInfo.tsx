@@ -16,7 +16,7 @@ export default function CatalogInfo(){
     const [isInfoOpen, setIsInfoOpen] = useState(false);
     const startDate = new Date(catalog.created_at);
     return(
-        <View className="bg-custom-primary w-11/12 mx-auto mt-4 rounded-2xl border border-custom-secondary">
+        <View className="bg-custom-primary w-11/12 mx-auto mt-3 rounded-2xl border border-custom-secondary">
             <Pressable className={isInfoOpen ? 
                             "py-2 px-4  flex flex-row justify-between border-b border-custom-secondary"
                             : "py-2 px-4 flex flex-row justify-between" 
