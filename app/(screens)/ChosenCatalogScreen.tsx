@@ -1,5 +1,6 @@
 import AddUserToACatalogForm from "@/components/forms/addUserToACatalogForm";
 import UserList from "@/components/lists/userList";
+import CatalogInfo from "@/components/ui/catalogInfo";
 import EditButton from "@/components/ui/editButton";
 import PadElement from "@/components/ui/padElement";
 import PageTitle from "@/components/ui/pageTitle";
@@ -39,10 +40,7 @@ export default function ChosenCatalogScreen() {
                 </View>
             </View>
 
-            <View>
-                <Text>{catalog.lengthInMin}</Text>
-                <Text>{catalog_start_date.getFullYear() + ". "+catalog_start_date.getMonth()+". "+catalog_start_date.getDate()+". "+catalog_start_date.getHours()+":"+catalog_start_date.getMinutes()+"-tól "+catalog.lengthInMin+" percig tart."}</Text>
-            </View>
+            <CatalogInfo />
 
             <View className="w-11/12 h-10 mx-auto felx flex-row gap-2 mt-3">
                 <ShareButton title="Megnyitás"></ShareButton>
