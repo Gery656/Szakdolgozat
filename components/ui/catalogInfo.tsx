@@ -16,7 +16,7 @@ export default function CatalogInfo(){
     const [isInfoOpen, setIsInfoOpen] = useState(false);
     const startDate = new Date(catalog.created_at);
     return(
-        <View className="bg-custom-primary w-11/12 mx-auto mt-3 rounded-2xl border border-custom-secondary">
+        <View className="bg-custom-primary w-11/12 mx-auto mt-3 rounded-2xl border shadow border-custom-secondary">
             <Pressable className={isInfoOpen ? 
                             "py-2 px-4  flex flex-row justify-between border-b border-custom-secondary"
                             : "py-2 px-4 flex flex-row justify-between" 
@@ -37,7 +37,7 @@ export default function CatalogInfo(){
                         catalog.type === "qr" ? "Qr" : ""  }</Text>
 
                 <Text className="text-lg font-bold">Kezdet:</Text>
-                <Text>{startDate.getFullYear() +". "+(startDate.getMonth()<10? "0":"")+startDate.getMonth()+". "+(startDate.getDate()<10? "0":"")+startDate.getDate()+"."}</Text>
+                <Text>{startDate.getFullYear() +". "+(startDate.getMonth()+1<10? "0":"")+(startDate.getMonth()+1)+". "+(startDate.getDate()<10? "0":"")+startDate.getDate()+"."}</Text>
                 <Text>{(startDate.getHours()<10? "0":"")+startDate.getHours()+":"+(startDate.getMinutes()<10? "0":"")+startDate.getMinutes()+":"+(startDate.getSeconds()<10? "0":"")+startDate.getSeconds()}</Text>
 
                 <Text className="text-lg font-bold">Hossza:</Text>
