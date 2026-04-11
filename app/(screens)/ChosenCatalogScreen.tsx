@@ -2,6 +2,7 @@ import AddUserToACatalogForm from "@/components/forms/addUserToACatalogForm";
 import UserList from "@/components/lists/userList";
 import CatalogInfo from "@/components/ui/catalogInfo";
 import EditButton from "@/components/ui/editButton";
+import MissingButton from "@/components/ui/missingButton";
 import PadElement from "@/components/ui/padElement";
 import PageTitle from "@/components/ui/pageTitle";
 import SeparatingLine from "@/components/ui/separatingLine";
@@ -42,9 +43,10 @@ export default function ChosenCatalogScreen() {
 
             <CatalogInfo />
 
-            <View className="w-11/12 h-10 mx-auto felx flex-row gap-2 mt-3">
+            <View className="w-11/12 mx-auto felx flex-row gap-2 mt-3 flex-wrap">
                 <ShareButton title="Megnyitás"></ShareButton>
                 <EditButton title="Szerkesztés" destination={"/UpdateCatalogScreen"}></EditButton>
+                <MissingButton title="Hiányzók" destination={"/MissingUsersScreen"}></MissingButton>
             </View>
 
             <SeparatingLine />
