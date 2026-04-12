@@ -166,7 +166,6 @@ export default function AddUserToACatalogForm() {
                             <Text className="text-white m-auto">Hozzáad</Text>
                         </Pressable>}
                 </View>
-
             }
             {!isMethodEmail &&
 
