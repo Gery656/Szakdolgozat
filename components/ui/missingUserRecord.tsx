@@ -10,9 +10,10 @@ interface MissingUserRecordProp{
     email:string
     identifier:string
     isColored:boolean
+    isAddButtonShown:boolean
 }
 
-export default function MissingUserRecord({name,email,identifier,isColored}:MissingUserRecordProp) {
+export default function MissingUserRecord({name,email,identifier,isColored,isAddButtonShown}:MissingUserRecordProp) {
     const event_id = useSelector(getSelectedEvent);
     const catalog_id = useSelector(getSelectedCatalog);
     const [isLoading,setIsLoading] = useState(false);
@@ -68,12 +69,14 @@ export default function MissingUserRecord({name,email,identifier,isColored}:Miss
 
     return (
         <View className={isColored ? "w-full flex flex-row px-2 bg-custom-primary py-1" : "w-full flex flex-row px-2 py-1"}>
-            <View className="w-3/4">
+            <View className={isAddButtonShown ? "w-3/4" : "w-full"}>
                 <Text className="text-lg">{name}</Text>
                 <Text>{email}</Text>
                 <Text>{identifier}</Text>
             </View>
-            {isLoading ?
+            
+            {isAddButtonShown && 
+            isLoading ?
                 <View className="w-1/4">
                     <ActivityIndicator className="m-auto" color={"black"} size={"small"}></ActivityIndicator>
                 </View>

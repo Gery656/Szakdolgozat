@@ -38,8 +38,6 @@ export default function NewCatalogForm() {
         return await Location.getCurrentPositionAsync({});
     }
 
-
-
     return (
         <View>
             <View className="bg-[#F2EAD3] mt-10 w-11/12 h-fit py-3 px-3 rounded-2xl mx-auto shadow">
