@@ -6,11 +6,12 @@ interface TitleProp{
     title:string,
     backButton:boolean|null,
     isSettings?:boolean|null
+    lowerTopMargin?:boolean|null
 }
 
-export default function PageTitle({title,backButton,isSettings}:TitleProp){
+export default function PageTitle({title,backButton,isSettings,lowerTopMargin}:TitleProp){
     return(
-              <View className='bg-custom-primary h-24 mt-20 w-11/12 rounded-2xl mx-auto shadow flex flex-row'>
+              <View className={lowerTopMargin ? 'bg-custom-primary h-24 mt-4 w-11/12 rounded-2xl mx-auto shadow flex flex-row' : 'bg-custom-primary h-24 mt-20 w-11/12 rounded-2xl mx-auto shadow flex flex-row'}>
                 {backButton &&
                 <Pressable
                 className="w-2/12 h-full"

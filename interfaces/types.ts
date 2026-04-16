@@ -32,6 +32,15 @@ export interface Catalog{
 'signedUp' : SignedUpUser[]
 }
 
+export interface MandatoryCatalog{
+    "id": number
+    "name": string
+    "lengthInMin": number
+    "type": string
+    "isGPSNeeded": boolean
+    "created_at": string
+}
+
 export interface SignedUpUser{
 'name' : string
 'email' : string

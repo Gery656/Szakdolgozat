@@ -4,7 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import * as Location from 'expo-location';
 import { router } from 'expo-router';
 import { useState } from "react";
-import { ActionSheetIOS, ActivityIndicator, Platform, Pressable, StyleSheet, Switch, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Platform, Pressable, StyleSheet, Switch, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function NewCatalogForm() {
@@ -55,24 +55,7 @@ export default function NewCatalogForm() {
                     <Text className='my-auto text-lg'>perc</Text>
                 </View>
                 {lengthInMinError.length !== 0 && lengthInMinError.map((error, i) => <Text key={i} className="text-red-500">{error}</Text>)}
-                {Platform.OS === "ios" && <Pressable className='h-10 border bg-custom-background'
-                    onPress={() => {
-                        ActionSheetIOS.showActionSheetWithOptions(
-                            {
-                                options: ['Cancel', 'Generate number', 'Reset', 'asd'],
-                                userInterfaceStyle: 'light',
-                            },
-                            buttonIndex => {
-                                // if (buttonIndex === 0) {
-                                //   // cancel action
-                                // } else if (buttonIndex === 1) {
-                                //   setResult(String(Math.floor(Math.random() * 100) + 1));
-                                // } else if (buttonIndex === 2) {
-                                //   setResult('🔮');
-                                // }
-                            },
-                        );
-                    }}></Pressable>}
+                
                 {Platform.OS === 'android'
                     ? <Text className="text-lg mt-2">Ellenőrzés típusa:</Text>
                     : <View className='flex flex-row justify-between px-5'>

@@ -21,7 +21,8 @@ const initialState = {
     selectedCatalog:null,
     selectedBluetoothDevice:null,
     sharedCatalog:null,
-    addMandatoryUserMethod : "email"
+    addMandatoryUserMethod : "email",
+    mandatoryCatalogs:[]
 
 };
 
@@ -74,11 +75,14 @@ const ApplicationSlice = createSlice({
             else{
                 state.addMandatoryUserMethod = "email"
             }
+        },
+        setMandatoryCatalogs: (state,{payload})=>{
+            state.mandatoryCatalogs=payload
         }
     }
 });
 
-export const {setNumber,inc,dec,setToken, setUser,setEvents,setSelectedEvent,setSelectedCatalog,setSelectedBluetoothDevice,setSharedCatalog,reset,setAddMandatoryUserMethod} = ApplicationSlice.actions;
+export const {setNumber,inc,dec,setToken, setUser,setEvents,setSelectedEvent,setSelectedCatalog,setSelectedBluetoothDevice,setSharedCatalog,reset,setAddMandatoryUserMethod,setMandatoryCatalogs} = ApplicationSlice.actions;
 
 export default ApplicationSlice;
 
@@ -92,4 +96,5 @@ export const getSelectedCatalog = (state) => state.selectedCatalog;
 export const getSelectedBluetoothDevice = (state) => state.selectedBluetoothDevice;
 export const getSharedCatalog = (state) => state.sharedCatalog;
 export const getAddMandatoryUserMethod = (state) => state.addMandatoryUserMethod;
+export const getMandatoryCatalogs = (state) => state.mandatoryCatalogs; 
 
