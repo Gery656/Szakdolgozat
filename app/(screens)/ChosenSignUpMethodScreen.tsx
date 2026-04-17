@@ -1,24 +1,26 @@
 
 import SignUpBluetoothSignalsSubmitForm from "@/components/forms/signUpBluetoothSignalsSubmitFrom";
 import SignUpCodeSubmitForm from "@/components/forms/signUpCodeSubmitForm";
-import SignUpQrCodeSubmitForm from "@/components/forms/signUpQrCodeSubmitForm";
 import PageTitle from "@/components/ui/pageTitle";
-import { useLocalSearchParams } from "expo-router";
-import { View } from "react-native";
+import { getMethodToSignUp } from "@/redux/applicationSlice";
+import { Text, View } from "react-native";
+import { useSelector } from "react-redux";
 
 export default function ChosenSignUpMethodScreen(){
 
-    const { mode,isGps } = useLocalSearchParams();
+    const {method,isGPSNeeded} = useSelector(getMethodToSignUp);
 
     return(
         <View className="min-w-full min-h-full">
             
-            <PageTitle title="Jelentkezés" backButton={false}></PageTitle>
+            <PageTitle title="Jelentkezés" backButton={true}></PageTitle>
+            <Text>{method}</Text>
+            <Text>{isGPSNeeded ? "true": "false"}</Text>
 
-            {mode==="code" && <SignUpCodeSubmitForm />}
-            {mode==="qr" && <SignUpQrCodeSubmitForm />}
+            {method==="code" && <SignUpCodeSubmitForm />}
+            {/* {mode==="qr" && <SignUpQrCodeSubmitForm />} */}
 
-            {mode==="bluetooth" && <SignUpBluetoothSignalsSubmitForm />}
+            {method==="bluetooth" && <SignUpBluetoothSignalsSubmitForm />}
             
 
         </View>

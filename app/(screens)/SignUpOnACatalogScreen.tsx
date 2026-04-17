@@ -48,6 +48,7 @@ export default function SignUpOnACatalogScreen() {
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
                     }>
                 <PageTitle title="Aktív ellenőrzések" backButton={false} lowerTopMargin></PageTitle>
+                
                 <MandatoryCatalogsList />
 
                 {/* <SignUpModeSelectForm /> */}

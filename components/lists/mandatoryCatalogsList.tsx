@@ -1,12 +1,12 @@
 import { MandatoryCatalog } from "@/interfaces/types";
-import { apiURL, getMandatoryCatalogs, getToken, setMandatoryCatalogs } from "@/redux/applicationSlice";
+import { apiURL, getMandatoryCatalogs, getToken, setMandatoryCatalogs, setSignUpIsGpsNeeded, setSignUpMode } from "@/redux/applicationSlice";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function MandatoryCatalogsList(){
+export default function MandatoryCatalogsList() {
     const [isLoading, setIsLoading] = useState(true);
     const token = useSelector(getToken);
     const mandatoryCatalogs = useSelector(getMandatoryCatalogs);
@@ -42,63 +42,80 @@ export default function MandatoryCatalogsList(){
 
         getActiveMandatoryCatalogs();
 
-        return(()=>{
+        return (() => {
             dispatch(setMandatoryCatalogs([]))
         })
 
     }, []);
 
-    return(isLoading ?
-                <View className="w-full mt-10">
-                    <ActivityIndicator className="m-auto" size={"large"} color={"black"}></ActivityIndicator>
-                </View>
-                :
-                <View className="w-11/12 mx-auto">
-                    {mandatoryCatalogs.map((catalog: MandatoryCatalog, i:number) =>{
-                        const date = new Date(catalog.created_at);
+    function OnPress(method: string, isGps: boolean) {
+        dispatch(setSignUpMode(method));
+        dispatch(setSignUpIsGpsNeeded(isGps));
 
-return(
+        if (method === "qr") {
+            router.push("/(scanner)/CameraHome");
+        }
+        else {
+            if (method === "nfc") {
+                router.push("/(scanner)/scan");
+            }
+            else {
+                router.push({ pathname: "/(screens)/ChosenSignUpMethodScreen", params: { mode: method, isGps: isGps ? "true" : "false" } })
+            }
+        }
+    }
+
+    return (isLoading ?
+        <View className="w-full mt-10">
+            <ActivityIndicator className="m-auto" size={"large"} color={"black"}></ActivityIndicator>
+        </View>
+        :
+        <View className="w-11/12 mx-auto">
+            {mandatoryCatalogs.map((catalog: MandatoryCatalog, i: number) => {
+                var endDate = new Date(catalog.created_at);
+                endDate.setHours(endDate.getHours(), endDate.getMinutes() + catalog.lengthInMin, 0, 0);
+
+                return (
                     <Pressable key={i} className="my-2"
-                    onPress={()=>{}}>
+                        onPress={()=>{OnPress(catalog.type,catalog.isGPSNeeded)}}>
                         <View className="w-full flex flex-row bg-custom-primary rounded-2xl shadow p-2">
                             <View className="w-5/6">
                                 <View className="my-auto w-full h-fit">
                                     <Text className="text-xl">{catalog.name}</Text>
                                     <View className="flex flex-row w-full">
-                                        <View className="w-1/2">
-                                            <Text className="mx-auto">{date.getFullYear() +". "+(date.getMonth()+1<10? "0":"")+(date.getMonth()+1)+". "+(date.getDate()<10? "0":"")+date.getDate()+"."}</Text>
-                                            <Text className="mx-auto">{(date.getHours()<10? "0":"")+date.getHours()+":"+(date.getMinutes()<10? "0":"")+date.getMinutes()+":"+(date.getSeconds()<10? "0":"")+date.getSeconds()}</Text>
+                                        <View>
+                                            <Text className="mx-auto">Határidő: {endDate.getHours() + ":" + (endDate.getMinutes() < 10 ? "0" : "") + endDate.getMinutes()}</Text>
                                         </View>
                                     </View>
                                 </View>
                             </View>
                             <View className="w-1/6">
-                                <Image source={require("@/assets/images/rightArrow.png")} style={styles.image}/>
+                                <Image source={require("@/assets/images/rightArrow.png")} style={styles.image} />
                             </View>
                         </View>
                     </Pressable>
-)
+                )
 
-})}
-                </View>
-            
-            
+            })}
+        </View>
+
+
     )
 }
 
 const styles = StyleSheet.create({
-      image: {
+    image: {
         height: 23,
         width: 23,
         bottom: 0,
         left: 0,
-        margin:"auto"
-      },
-      personIcon: {
+        margin: "auto"
+    },
+    personIcon: {
         height: 13,
         width: 13,
         bottom: 0,
         left: 0,
-        margin:"auto"
-      },
-    });
+        margin: "auto"
+    },
+});
