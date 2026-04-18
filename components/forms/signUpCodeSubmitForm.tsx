@@ -12,6 +12,9 @@ export default function SignUpCodeSubmitForm() {
     const [isSuccess, setIsSuccess] = useState(false);
     const [errorText, setErrorText] = useState<string[]>([]);
     const [code, setCode] = useState("");
+    const [eventName,setEventName] = useState("");
+    const [catalogName,setCatalogName] = useState("");
+
     const token = useSelector(getToken);
     const dispatch = useDispatch();
 
@@ -27,6 +30,7 @@ export default function SignUpCodeSubmitForm() {
     }
 
     async function SignUpOnPress() {
+        setErrorText([]);
         setIsLoading(true)
 
         let location = null;
@@ -89,6 +93,9 @@ export default function SignUpCodeSubmitForm() {
             return;
         }
 
+        setEventName(recievedData.eventName)
+        setCatalogName(recievedData.catalogName)
+
         const response2 = await fetch(apiURL + "/user/mandatory/catalogs", {
             method: "GET",
             headers: {
@@ -117,7 +124,17 @@ export default function SignUpCodeSubmitForm() {
         setIsLoading(false)
     };
 
-    return (!isSuccess &&
+    return (isSuccess ?
+        <View className='w-11/12 mt-32 mx-auto bg-custom-primary rounded-xl p-4'>
+            <View className='border-b'>
+                <Text className='text-xl mx-auto'>Sikeres jelentkezés!</Text>
+            </View>
+            <View className='mt-4'>
+                <Text className='mx-auto'>Sikeresen jelentkezett a következő ellenőrzésre:</Text>
+                <Text className='mx-auto'>{eventName} - {catalogName}</Text>
+            </View>
+        </View>
+        :
         <View className="bg-custom-primary mt-32 w-11/12 py-3 px-3 rounded-2xl mx-auto grid grid-flow-row">
 
             <Text className="text-lg">Kód:</Text>

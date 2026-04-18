@@ -71,6 +71,7 @@ export default function MandatoryCatalogsList() {
         </View>
         :
         <View className="w-11/12 mx-auto">
+            {mandatoryCatalogs.length == 0 && <Text className="mx-auto mt-10">Jelenleg nincs aktív ellenőrzés!</Text>}
             {mandatoryCatalogs.map((catalog: MandatoryCatalog, i: number) => {
                 var endDate = new Date(catalog.created_at);
                 endDate.setHours(endDate.getHours(), endDate.getMinutes() + catalog.lengthInMin, 0, 0);
