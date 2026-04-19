@@ -1,5 +1,5 @@
 import { MandatoryCatalog } from "@/interfaces/types";
-import { apiURL, getMandatoryCatalogs, getToken, setMandatoryCatalogs, setSignUpIsGpsNeeded, setSignUpMode } from "@/redux/applicationSlice";
+import { apiURL, getMandatoryCatalogs, getToken, setDefaultBluetoothIdentifier, setMandatoryCatalogs, setSignUpIsGpsNeeded, setSignUpMode } from "@/redux/applicationSlice";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
@@ -48,7 +48,7 @@ export default function MandatoryCatalogsList() {
 
     }, []);
 
-    function OnPress(method: string, isGps: boolean) {
+    function OnPress(method: string, isGps: boolean,BLEIdentifier:string|null) {
         dispatch(setSignUpMode(method));
         dispatch(setSignUpIsGpsNeeded(isGps));
 
@@ -60,6 +60,7 @@ export default function MandatoryCatalogsList() {
                 router.push("/(scanner)/scan");
             }
             else {
+                dispatch(setDefaultBluetoothIdentifier(BLEIdentifier ?? ""))
                 router.push({ pathname: "/(screens)/ChosenSignUpMethodScreen", params: { mode: method, isGps: isGps ? "true" : "false" } })
             }
         }
@@ -78,7 +79,7 @@ export default function MandatoryCatalogsList() {
 
                 return (
                     <Pressable key={i} className="my-2"
-                        onPress={()=>{OnPress(catalog.type,catalog.isGPSNeeded)}}>
+                        onPress={()=>{OnPress(catalog.type,catalog.isGPSNeeded,catalog.BLEIdentifier)}}>
                         <View className="w-full flex flex-row bg-custom-primary rounded-2xl shadow p-2">
                             <View className="w-5/6">
                                 <View className="my-auto w-full h-fit">

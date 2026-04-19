@@ -26,7 +26,9 @@ const initialState = {
     methodToSignUp:{
         method: "",
         isGPSNeeded: false
-    }
+    },
+    defaultBluetoothIdentifier: "",
+    bluetoothIdentifierToSend:""
 
 };
 
@@ -88,11 +90,17 @@ const ApplicationSlice = createSlice({
         },
         setSignUpIsGpsNeeded:(state,{payload})=>{
             state.methodToSignUp.isGPSNeeded = payload ? true : false
+        },
+        setDefaultBluetoothIdentifier: (state, {payload})=>{
+            state.defaultBluetoothIdentifier = payload
+        },
+        setBluetoothIdentifierToSend: (state, {payload})=>{
+            state.bluetoothIdentifierToSend = payload
         }
     }
 });
 
-export const {setNumber,inc,dec,setToken, setUser,setEvents,setSelectedEvent,setSelectedCatalog,setSelectedBluetoothDevice,setSharedCatalog,reset,setAddMandatoryUserMethod,setMandatoryCatalogs,setSignUpMode,setSignUpIsGpsNeeded} = ApplicationSlice.actions;
+export const {setNumber,inc,dec,setToken, setUser,setEvents,setSelectedEvent,setSelectedCatalog,setSelectedBluetoothDevice,setSharedCatalog,reset,setAddMandatoryUserMethod,setMandatoryCatalogs,setSignUpMode,setSignUpIsGpsNeeded,setDefaultBluetoothIdentifier,setBluetoothIdentifierToSend} = ApplicationSlice.actions;
 
 export default ApplicationSlice;
 
@@ -108,3 +116,6 @@ export const getSharedCatalog = (state) => state.sharedCatalog;
 export const getAddMandatoryUserMethod = (state) => state.addMandatoryUserMethod;
 export const getMandatoryCatalogs = (state) => state.mandatoryCatalogs; 
 export const getMethodToSignUp = (state) => state.methodToSignUp;
+export const getDefaultBluetoothIdentifier = (state) => state.defaultBluetoothIdentifier;
+export const getBluetoothIdentifierToSend = (state) => state.bluetoothIdentifierToSend;
+

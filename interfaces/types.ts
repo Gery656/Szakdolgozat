@@ -39,6 +39,7 @@ export interface MandatoryCatalog{
     "type": string
     "isGPSNeeded": boolean
     "created_at": string
+    BLEIdentifier: string | null
 }
 
 export interface SignedUpUser{

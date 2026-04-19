@@ -1,12 +1,15 @@
+import { setDefaultBluetoothIdentifier } from "@/redux/applicationSlice";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Pressable, StyleSheet, Switch, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
 
 export default function SignUpModeSelectForm() {
 
     const [isEnabled,setIsEnabled] = useState(false);
     const [selectedMode,setSelectedMode] = useState("code");
+    const dispatch = useDispatch();
 
     return (
         <View className="w-11/12 mx-auto mt-10 flex flex-row flex-wrap">
@@ -94,6 +97,7 @@ export default function SignUpModeSelectForm() {
                         router.push("/(scanner)/scan");
                     }
                     else{
+                        dispatch(setDefaultBluetoothIdentifier(""))
                         router.push({pathname:"/(screens)/ChosenSignUpMethodScreen",params:{mode: selectedMode, isGps: isEnabled ? "true" : "false"}})
                     }
                 }
