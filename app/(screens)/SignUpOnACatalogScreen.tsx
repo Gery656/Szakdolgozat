@@ -3,7 +3,7 @@ import PageTitle from "@/components/ui/pageTitle";
 import { apiURL, getToken, setMandatoryCatalogs } from "@/redux/applicationSlice";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { RefreshControl, ScrollView } from "react-native";
+import { Pressable, RefreshControl, ScrollView, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -52,6 +52,12 @@ export default function SignUpOnACatalogScreen() {
                 <MandatoryCatalogsList />
 
                 {/* <SignUpModeSelectForm /> */}
+
+            <Pressable
+            className="w-11/12 mx-auto h-16 bg-custom-secondary mt-10 rounded-lg"
+            onPress={()=>{router.push("/ManualSignUpScreen")}}>
+                <Text className="text-[#F5F5F5] m-auto">Manuális jelentkezés</Text>
+            </Pressable>
             </ScrollView>
         </SafeAreaView>
     )

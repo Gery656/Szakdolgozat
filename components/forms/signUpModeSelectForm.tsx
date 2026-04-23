@@ -1,4 +1,4 @@
-import { setDefaultBluetoothIdentifier } from "@/redux/applicationSlice";
+import { setDefaultBluetoothIdentifier, setSignUpIsGpsNeeded, setSignUpMode } from "@/redux/applicationSlice";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -89,6 +89,9 @@ export default function SignUpModeSelectForm() {
             <Pressable
             className="w-full h-16 bg-custom-secondary mt-4 rounded-lg"
             onPress={()=>{
+                dispatch(setSignUpMode(selectedMode));
+                dispatch(setSignUpIsGpsNeeded(isEnabled));
+
                 if (selectedMode === "qr") {
                     router.push("/(scanner)/CameraHome")
                 }
@@ -98,7 +101,7 @@ export default function SignUpModeSelectForm() {
                     }
                     else{
                         dispatch(setDefaultBluetoothIdentifier(""))
-                        router.push({pathname:"/(screens)/ChosenSignUpMethodScreen",params:{mode: selectedMode, isGps: isEnabled ? "true" : "false"}})
+                        router.push("/(screens)/ChosenSignUpMethodScreen")
                     }
                 }
             }}>

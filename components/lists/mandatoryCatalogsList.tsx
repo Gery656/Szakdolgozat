@@ -61,7 +61,7 @@ export default function MandatoryCatalogsList() {
             }
             else {
                 dispatch(setDefaultBluetoothIdentifier(BLEIdentifier ?? ""))
-                router.push({ pathname: "/(screens)/ChosenSignUpMethodScreen", params: { mode: method, isGps: isGps ? "true" : "false" } })
+                router.push("/(screens)/ChosenSignUpMethodScreen")
             }
         }
     }

@@ -15,6 +15,9 @@ export default function CatalogInfo(){
 
     const [isInfoOpen, setIsInfoOpen] = useState(false);
     const startDate = new Date(catalog.created_at);
+    var endDate = new Date(catalog.created_at);
+    endDate.setHours(endDate.getHours(), endDate.getMinutes() + catalog.lengthInMin, 0, 0);
+
     return(
         <View className="bg-custom-primary w-11/12 mx-auto mt-3 rounded-2xl border shadow border-custom-secondary">
             <Pressable className={isInfoOpen ? 
@@ -37,8 +40,10 @@ export default function CatalogInfo(){
                         catalog.type === "qr" ? "Qr" : ""  }</Text>
 
                 <Text className="text-lg font-bold">Kezdet:</Text>
-                <Text>{startDate.getFullYear() +". "+(startDate.getMonth()+1<10? "0":"")+(startDate.getMonth()+1)+". "+(startDate.getDate()<10? "0":"")+startDate.getDate()+"."}</Text>
-                <Text>{(startDate.getHours()<10? "0":"")+startDate.getHours()+":"+(startDate.getMinutes()<10? "0":"")+startDate.getMinutes()+":"+(startDate.getSeconds()<10? "0":"")+startDate.getSeconds()}</Text>
+                <Text>{startDate.getFullYear() +". "+(startDate.getMonth()+1<10? "0":"")+(startDate.getMonth()+1)+". "+(startDate.getDate()<10? "0":"")+startDate.getDate()+". "+(startDate.getHours()<10? "0":"")+startDate.getHours()+":"+(startDate.getMinutes()<10? "0":"")+startDate.getMinutes()+":"+(startDate.getSeconds()<10? "0":"")+startDate.getSeconds()}</Text>
+                
+                <Text className="text-lg font-bold">Vége:</Text>
+                <Text>{startDate.getFullYear() +". "+(endDate.getMonth()+1<10? "0":"")+(endDate.getMonth()+1)+". "+(endDate.getDate()<10? "0":"")+endDate.getDate()+". "+(endDate.getHours()<10? "0":"")+endDate.getHours()+":"+(endDate.getMinutes()<10? "0":"")+endDate.getMinutes()+":"+(endDate.getSeconds()<10? "0":"")+endDate.getSeconds()}</Text>
 
                 <Text className="text-lg font-bold">Hossza:</Text>
                 <Text>{catalog.lengthInMin} perc</Text>

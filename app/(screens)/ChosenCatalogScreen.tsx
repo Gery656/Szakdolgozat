@@ -74,7 +74,9 @@ export default function ChosenCatalogScreen() {
                         </View>
                     </View>
                 </View>
+
                 <CatalogInfo />
+                
                 <View className="w-11/12 mx-auto felx flex-row gap-2 mt-3 flex-wrap">
                     <ShareButton title="Megnyitás"></ShareButton>
                     <EditButton title="Szerkesztés" destination={"/UpdateCatalogScreen"}></EditButton>

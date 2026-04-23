@@ -64,9 +64,7 @@ export default function BleHome() {
     }
 
     let uuids: UUID[] = [];
-    console.log(allDevices.current)
     allDevices.current.map((device) => { device.serviceUUIDs?.map((current_uuid) => { uuids.push(current_uuid) }) })
-    console.log(uuids);
 
     const response = await fetch(apiURL + "/signup/bluetooth", {
       method: "POST",
@@ -89,17 +87,7 @@ export default function BleHome() {
       if (response.status === 422) {
         if (recievedData.errors) {
           Object.values<string[]>(recievedData.errors).map((errorArray) => { errorArray.map((errorText) => errors.push(errorText)) })
-          // errors = [...errors, ...recievedData.errors.bluetoothDeviceIdentifier]
         }
-        // if (recievedData.errors.latitude) {
-        //   errors = [...errors, ...recievedData.errors.latitude]
-        // }
-        // if (recievedData.errors.longitude) {
-        //   errors = [...errors, ...recievedData.errors.longitude]
-        // }
-        // if (recievedData.errors.location) {
-        //   errors = [...errors, ...recievedData.errors.location]
-        // }
       }
 
       setErrorText(errors);
@@ -152,33 +140,31 @@ export default function BleHome() {
     let timeout1 = setTimeout(() => {
       stopScanForPeripherals();
       setIsScanningDone(true);
-      console.log("useEffect - "+allDevices)
       SignUpOnRead()
     }, !isNaN(parseInt(process.env.EXPO_PUBLIC_SCAN_TIME_MS ?? "5000")) ? parseInt(process.env.EXPO_PUBLIC_SCAN_TIME_MS ?? "5000") : 5000);
 
 
     return () => {
       stopScanForPeripherals();
-      console.log("Return of useEffect")
       clearTimeout(timeout1);
 
     };
   }, []);
 
   return (isFocused &&
-    <SafeAreaView className='min-w-full min-h-full border border-red-500'>
-      <ScrollView className='min-w-full min-h-full border'>
+    <SafeAreaView className='min-w-full min-h-full'>
+      <ScrollView className='min-w-full min-h-full'>
         <PageTitle title='Bluetooth érzékelés' backButton lowerTopMargin></PageTitle>
 
         {!isScanningDone &&
-          <View className='mt-10 flex flex-col gap-5'>
+          <View className='mt-32 flex flex-col gap-5'>
             <ActivityIndicator className='mx-auto' size={"large"} color={"blue"}></ActivityIndicator>
             <Text className='mx-auto'>Bluetooth érzékelés folyamatban...</Text>
           </View>
         }
 
         {isScanningDone &&
-          <View className='mt-10 flex flex-col gap-5'>
+          <View className='mt-32 flex flex-col gap-5'>
             {
               isLoading ?
                 <View className='flex flex-col gap-5'>
@@ -187,15 +173,15 @@ export default function BleHome() {
                 </View>
                 :
                 isSuccess ?
-                  <View className='w-11/12 bg-blue-950 mx-auto rounded-3xl'>
-                    {allDevices.current.map((device, i) =>
-                      <View key={i} className='w-11/12 mx-auto border-b pb-1 border-red-500'>
-                        <Text className='text-white mt-2'>{device.id}</Text>
-                        {device.serviceUUIDs?.map((uuid, j) => <Text key={j} className='text-white mx-auto'>{uuid}</Text>)}
-                        <Text className='text-white mx-auto'>{device.name}</Text>
+                  <>
+                    <View className='w-11/12 mt-32 mx-auto bg-custom-primary rounded-xl p-4'>
+                      <View>
+                        <Image source={require("@/assets/images/tick.png")} style={styles.resultPic} />
                       </View>
-                    )}
-                  </View>
+                    </View>
+                    <Text className='text-lg mx-auto'>Sikeres jelentkezés!</Text>
+                    <Text className='text-lg mx-auto'>{eventName} - {catalogName}</Text>
+                  </>
                   :
                   <>
                     <View className='w-11/12 mx-auto bg-custom-primary rounded-xl p-4'>
@@ -207,16 +193,7 @@ export default function BleHome() {
                   </>
 
             }
-                  <View className='w-11/12 bg-blue-950 mx-auto rounded-3xl'>
-                    {allDevices.current.map((device, i) =>
-                      <View key={i} className='w-11/12 mx-auto border-b pb-1 border-red-500'>
-                        <Text className='text-white mt-2'>{device.id}</Text>
-                        {device.serviceUUIDs?.map((uuid, j) => <Text key={j} className='text-white mx-auto'>{uuid}</Text>)}
-                        <Text className='text-white mx-auto'>{device.name}</Text>
-                      </View>
-                    )}
-                  </View>
-                  {allDevices.current.map((device) => device.serviceUUIDs?.map((current_uuid,i) => <Text key={i}>{current_uuid}</Text> ) )}
+            {/* {allDevices.current.map((device) => device.serviceUUIDs?.map((current_uuid,i) => <Text key={i}>{current_uuid}</Text> ) )} */}
           </View>
         }
       </ScrollView>
