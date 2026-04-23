@@ -2,20 +2,20 @@
 
 import * as ExpoDevice from "expo-device";
 import { router } from "expo-router";
-import { useMemo, useState } from "react";
+import { RefObject, useMemo, useRef } from "react";
 import { Alert, PermissionsAndroid, Platform } from "react-native";
 import { BleManager, Device } from "react-native-ble-plx";
 
 interface BluetoothLowEnergyApi{
     requestPermissions():Promise<boolean>;
     scanForPeripherals():void;
-    allDevices:Device[];
+    allDevices:RefObject<Device[]>;
     stopScanForPeripherals():void;
 }
 
 function useBLE(): BluetoothLowEnergyApi{
     const bleManager = useMemo(() => new BleManager(),[]);
-    const [allDevices,setAllDevices] = useState<Device[]>([]);
+    const allDevices= useRef<Device[]>([]);
 
     const requestAndroid31Permissions= async() => {
         const bluetoothScanPermissions = await PermissionsAndroid.request(
@@ -89,12 +89,15 @@ function useBLE(): BluetoothLowEnergyApi{
             }
 
             if (device /* more constraints can be put here */) {
-                setAllDevices((prevState)=>{
-                    if (!isDuplicateDevice(prevState,device)) {
-                        return [...prevState,device];
-                    }
-                    return prevState;
-                })
+                if (!isDuplicateDevice(allDevices.current,device)) {
+                    allDevices.current.push(device);
+                }
+                // setAllDevices((prevState)=>{
+                //     if (!isDuplicateDevice(prevState,device)) {
+                //         return [...prevState,device];
+                //     }
+                //     return prevState;
+                // })
             }
         })
     };

@@ -63,10 +63,9 @@ export default function BleHome() {
       }
     }
 
-    //TODO: The problem is HERE, allDevices is a stateful variable and I cannot read it like this at this moment.
     let uuids: UUID[] = [];
-    console.log(allDevices)
-    console.log(allDevices.map((device) => { device.serviceUUIDs?.map((current_uuid) => { uuids.push(current_uuid) }) }))
+    console.log(allDevices.current)
+    allDevices.current.map((device) => { device.serviceUUIDs?.map((current_uuid) => { uuids.push(current_uuid) }) })
     console.log(uuids);
 
     const response = await fetch(apiURL + "/signup/bluetooth", {
@@ -155,7 +154,7 @@ export default function BleHome() {
       setIsScanningDone(true);
       console.log("useEffect - "+allDevices)
       SignUpOnRead()
-    }, 5000);
+    }, !isNaN(parseInt(process.env.EXPO_PUBLIC_SCAN_TIME_MS ?? "5000")) ? parseInt(process.env.EXPO_PUBLIC_SCAN_TIME_MS ?? "5000") : 5000);
 
 
     return () => {
@@ -170,12 +169,14 @@ export default function BleHome() {
     <SafeAreaView className='min-w-full min-h-full border border-red-500'>
       <ScrollView className='min-w-full min-h-full border'>
         <PageTitle title='Bluetooth érzékelés' backButton lowerTopMargin></PageTitle>
+
         {!isScanningDone &&
           <View className='mt-10 flex flex-col gap-5'>
             <ActivityIndicator className='mx-auto' size={"large"} color={"blue"}></ActivityIndicator>
             <Text className='mx-auto'>Bluetooth érzékelés folyamatban...</Text>
           </View>
         }
+
         {isScanningDone &&
           <View className='mt-10 flex flex-col gap-5'>
             {
@@ -187,7 +188,7 @@ export default function BleHome() {
                 :
                 isSuccess ?
                   <View className='w-11/12 bg-blue-950 mx-auto rounded-3xl'>
-                    {allDevices.map((device, i) =>
+                    {allDevices.current.map((device, i) =>
                       <View key={i} className='w-11/12 mx-auto border-b pb-1 border-red-500'>
                         <Text className='text-white mt-2'>{device.id}</Text>
                         {device.serviceUUIDs?.map((uuid, j) => <Text key={j} className='text-white mx-auto'>{uuid}</Text>)}
@@ -207,7 +208,7 @@ export default function BleHome() {
 
             }
                   <View className='w-11/12 bg-blue-950 mx-auto rounded-3xl'>
-                    {allDevices.map((device, i) =>
+                    {allDevices.current.map((device, i) =>
                       <View key={i} className='w-11/12 mx-auto border-b pb-1 border-red-500'>
                         <Text className='text-white mt-2'>{device.id}</Text>
                         {device.serviceUUIDs?.map((uuid, j) => <Text key={j} className='text-white mx-auto'>{uuid}</Text>)}
@@ -215,7 +216,7 @@ export default function BleHome() {
                       </View>
                     )}
                   </View>
-                  {allDevices.map((device) => device.serviceUUIDs?.map((current_uuid,i) => <Text key={i}>{current_uuid}</Text> ) )}
+                  {allDevices.current.map((device) => device.serviceUUIDs?.map((current_uuid,i) => <Text key={i}>{current_uuid}</Text> ) )}
           </View>
         }
       </ScrollView>
