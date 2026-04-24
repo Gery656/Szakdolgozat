@@ -1,4 +1,5 @@
 import CatalogList from "@/components/lists/catalogList";
+import DeleteButton from "@/components/ui/deleteButton";
 import EditButton from "@/components/ui/editButton";
 import MandatoryParticipantsButton from "@/components/ui/mandatoryParticipantsButton";
 import NewButton from "@/components/ui/newButton";
@@ -67,6 +68,7 @@ export default function ChosenEventScreen(){
                     <EditButton title="Szerkesztés" destination={"/UpdateEventScreen"}></EditButton>
                     <MandatoryParticipantsButton title="Résztvevők" destination={"/MandatoryUsersScreen"}></MandatoryParticipantsButton>
                     <NewButton title="Új" destination={"/(screens)/NewCatalogScreen"}></NewButton>
+                    <DeleteButton title="Törlés" isEvent={true}></DeleteButton>
                 </View>
                 <SeparatingLine/>
                 <CatalogList/>

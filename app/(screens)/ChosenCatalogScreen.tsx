@@ -1,6 +1,7 @@
 import AddUserToACatalogForm from "@/components/forms/addUserToACatalogForm";
 import UserList from "@/components/lists/userList";
 import CatalogInfo from "@/components/ui/catalogInfo";
+import DeleteButton from "@/components/ui/deleteButton";
 import EditButton from "@/components/ui/editButton";
 import MissingButton from "@/components/ui/missingButton";
 import PadElement from "@/components/ui/padElement";
@@ -81,6 +82,7 @@ export default function ChosenCatalogScreen() {
                     <ShareButton title="Megnyitás"></ShareButton>
                     <EditButton title="Szerkesztés" destination={"/UpdateCatalogScreen"}></EditButton>
                     <MissingButton title="Hiányzók" destination={"/MissingUsersScreen"}></MissingButton>
+                    <DeleteButton title="Törlés" isEvent={false}></DeleteButton>
                 </View>
                 <SeparatingLine />
                 <AddUserToACatalogForm />
