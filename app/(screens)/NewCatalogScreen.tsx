@@ -1,17 +1,15 @@
 import NewCatalogForm from "@/components/forms/newCatalogForm";
 import PageTitle from "@/components/ui/pageTitle";
-import { View } from "react-native";
+import { KeyboardAvoidingView, ScrollView } from "react-native";
 
 export default function NewCatalogScreen() {
 
     return (
-            <View className="min-w-full min-h-full">
-
+        <KeyboardAvoidingView className="min-w-full min-h-full" behavior="padding">
+            <ScrollView className="min-w-full min-h-full">
                 <PageTitle title="Új ellenőrzés" backButton={true}></PageTitle>
-
-                <NewCatalogForm/>
-
-
-            </View>
+                <NewCatalogForm />
+            </ScrollView>
+        </KeyboardAvoidingView>
     )
 }

@@ -24,7 +24,7 @@ export function NfcEmulationPanelWrapper() {
         :
         <View className='w-11/12 mx-auto mt-32 bg-custom-primary rounded-xl p-4'>
             <View className='border-b'>
-                <Text className='text-xl mx-auto'>Sikertelen indítás</Text>
+                <Text className='text-xl mx-auto'>Sikertelen megosztás</Text>
             </View>
             <View className='mt-4'>
                 <Text className='mx-auto'>Nfc nincs bekapcsolva</Text>

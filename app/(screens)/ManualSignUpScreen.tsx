@@ -8,7 +8,7 @@ export default function ManualSignUpScreen(){
     return(
         <SafeAreaView>
             <ScrollView className="min-w-full min-h-full">
-                <PageTitle title="Manuális jelentkezés" backButton={false} lowerTopMargin></PageTitle>
+                <PageTitle title="Manuális jelentkezés" backButton={true} lowerTopMargin></PageTitle>
 
                 <SignUpModeSelectForm />
 

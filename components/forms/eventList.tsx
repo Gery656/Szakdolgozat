@@ -25,7 +25,7 @@ export default function EventList(){
                             <View className="my-auto w-full h-fit">
                                 <Text className="text-xl">{event.name}</Text>
                                 <Text className="my-2">{(event.catalogs).length} db ellenőrzés történt</Text>
-                                <Text>{event.description.split(' ').slice(0,10).join(' ')} ...</Text>
+                                <Text>{event.description.split(' ').slice(0,10).join(' ')} {event.description.split(' ').length > 10 && "..."}</Text>
                             </View>
                         </View>
                         <View className="w-1/6">

@@ -97,9 +97,6 @@ export default function UpdateBluetoothDeviceForm() {
 
     return (
         <View className="bg-[#F2EAD3] mt-20 w-11/12 py-3 px-3 rounded-2xl mx-auto shadow">
-            <Text>{deviceName}</Text>
-            <Text>{uuid}</Text>
-            <Text>{code}</Text>
             <Text className="text-lg">Eszköz neve:</Text>
             <TextInput
                 defaultValue={deviceName}
