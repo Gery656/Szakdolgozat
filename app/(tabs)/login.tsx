@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, ScrollView, StyleSheet } from 'react-native';
 
 import LoginForm from '@/components/forms/loginForm';
 import PadElement from '@/components/ui/padElement';
@@ -14,12 +14,13 @@ const token = useSelector(getToken)
   const isFocused = useIsFocused();
 
   return (isFocused &&
-    <View className='bg-custom-background w-full h-full'>
-      <PageTitle title='Bejelentkezés' backButton={false}></PageTitle>
-      <LoginForm></LoginForm>
-      <PadElement />
-
-    </View>
+    <KeyboardAvoidingView behavior='padding' className='bg-custom-background w-full h-full'>
+      <ScrollView>
+        <PageTitle title='Bejelentkezés' backButton={false}></PageTitle>
+        <LoginForm></LoginForm>
+        <PadElement />
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 

@@ -3,21 +3,19 @@ import RegisterForm from '@/components/forms/registerForm';
 import PadElement from '@/components/ui/padElement';
 import PageTitle from '@/components/ui/pageTitle';
 import { useIsFocused } from '@react-navigation/native';
-import { ScrollView, StyleSheet } from 'react-native';
+import { KeyboardAvoidingView, ScrollView, StyleSheet } from 'react-native';
 
 
 export default function HomeScreen() {
   const isFocused = useIsFocused();
   return (isFocused &&
-    <ScrollView className='bg-custom-background min-w-full min-h-full '>
-
-      <PageTitle title='Regisztráció' backButton={false}></PageTitle>
-
-      <RegisterForm></RegisterForm>
-
-      <PadElement />
-
-    </ScrollView>
+    <KeyboardAvoidingView behavior='padding' className='bg-custom-background min-w-full min-h-full'>
+      <ScrollView>
+        <PageTitle title='Regisztráció' backButton={false}></PageTitle>
+        <RegisterForm></RegisterForm>
+        <PadElement />
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
