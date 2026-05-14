@@ -1,8 +1,9 @@
 import { apiURL, getMethodToSignUp, getToken, setMandatoryCatalogs } from "@/redux/applicationSlice";
+import { Image } from "expo-image";
 import * as Location from 'expo-location';
 import { router } from "expo-router";
 import { useState } from "react";
-import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function SignUpCodeSubmitForm() {
@@ -125,15 +126,15 @@ export default function SignUpCodeSubmitForm() {
     };
 
     return (isSuccess ?
-        <View className='w-11/12 mt-32 mx-auto bg-custom-primary rounded-xl p-4'>
-            <View className='border-b'>
-                <Text className='text-xl mx-auto'>Sikeres jelentkezés!</Text>
+        <>
+            <View className='w-11/12 mt-32 mx-auto bg-custom-primary rounded-xl p-4'>
+                <View>
+                    <Image source={require("@/assets/images/tick.png")} style={styles.resultPic} />
+                </View>
             </View>
-            <View className='mt-4'>
-                <Text className='mx-auto'>Sikeresen jelentkezett a következő ellenőrzésre:</Text>
-                <Text className='mx-auto'>{eventName} - {catalogName}</Text>
-            </View>
-        </View>
+            <Text className='text-lg mx-auto'>Sikeres jelentkezés!</Text>
+            <Text className='text-lg mx-auto'>{eventName} - {catalogName}</Text>
+        </>
         :
         <View className="bg-custom-primary mt-32 w-11/12 py-3 px-3 rounded-2xl mx-auto grid grid-flow-row">
 
@@ -156,3 +157,12 @@ export default function SignUpCodeSubmitForm() {
         </View>
     )
 }
+const styles = StyleSheet.create({
+  resultPic: {
+    height: 60,
+    width: 60,
+    bottom: 0,
+    left: 0,
+    margin: "auto"
+  }
+});

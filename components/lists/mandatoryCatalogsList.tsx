@@ -89,6 +89,28 @@ export default function MandatoryCatalogsList() {
                                             <Text className="mx-auto">Határidő: {endDate.getHours() + ":" + (endDate.getMinutes() < 10 ? "0" : "") + endDate.getMinutes()}</Text>
                                         </View>
                                     </View>
+                                    <View className="flex flex-row w-full">
+                                        <View>
+                                            {catalog.type==="code" ? 
+                                                <Image source={require("@/assets/images/passcode.png")} style={styles.typeIcon} />
+                                            : catalog.type==="qr" ?
+                                                <Image source={require("@/assets/images/QR.png")} style={styles.typeIcon} />
+                                            : catalog.type==="nfc" ?
+                                                <Image source={require("@/assets/images/nfc.png")} style={styles.typeIcon} />
+                                            : catalog.type==="bluetooth" ?
+                                                <Image source={require("@/assets/images/bluetooth.png")} style={styles.typeIcon} />
+                                            : <></>
+                                            }
+                                        </View>
+
+                                        <View>
+                                            {catalog.isGPSNeeded ?
+                                                <Image source={require("@/assets/images/gps.png")} style={styles.typeIcon} />
+                                                :
+                                                <></>
+                                            }
+                                        </View>
+                                    </View>
                                 </View>
                             </View>
                             <View className="w-1/6">
@@ -113,9 +135,9 @@ const styles = StyleSheet.create({
         left: 0,
         margin: "auto"
     },
-    personIcon: {
-        height: 13,
-        width: 13,
+    typeIcon: {
+        height: 20,
+        width: 20,
         bottom: 0,
         left: 0,
         margin: "auto"
