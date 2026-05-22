@@ -13,7 +13,6 @@ export async function getValueFor(key) {
 }
 
 const initialState = {
-    number: 0,
     token:null,
     user:null,
     events:null,
@@ -36,15 +35,6 @@ const ApplicationSlice = createSlice({
     name: "szakdolgozat",
     initialState,
     reducers: {
-        setNumber: (state, { payload }) => {
-            state.number = payload
-        },
-        inc: (state) => {
-            state.number = state.number+1
-        },
-        dec: (state) => {
-            state.number = state.number-1
-        },
         setToken:(state,{payload})=>{
             state.token=payload
         },
@@ -100,12 +90,11 @@ const ApplicationSlice = createSlice({
     }
 });
 
-export const {setNumber,inc,dec,setToken, setUser,setEvents,setSelectedEvent,setSelectedCatalog,setSelectedBluetoothDevice,setSharedCatalog,reset,setAddMandatoryUserMethod,setMandatoryCatalogs,setSignUpMode,setSignUpIsGpsNeeded,setDefaultBluetoothIdentifier,setBluetoothIdentifierToSend} = ApplicationSlice.actions;
+export const {setToken, setUser,setEvents,setSelectedEvent,setSelectedCatalog,setSelectedBluetoothDevice,setSharedCatalog,reset,setAddMandatoryUserMethod,setMandatoryCatalogs,setSignUpMode,setSignUpIsGpsNeeded,setDefaultBluetoothIdentifier,setBluetoothIdentifierToSend} = ApplicationSlice.actions;
 
 export default ApplicationSlice;
 
 //selectors for useSelector()
-export const getNumber = (state) => state.number;
 export const getToken = (state) => state.token;
 export const getUser = (state) => state.user;
 export const getEvents = (state) => state.events;
