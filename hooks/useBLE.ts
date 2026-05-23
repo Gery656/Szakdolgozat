@@ -20,29 +20,14 @@ function useBLE(): BluetoothLowEnergyApi{
     const requestAndroid31Permissions= async() => {
         const bluetoothScanPermissions = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
-            // {
-            //     title: "Scan Permission",
-            //     message: "App requires bluetooth scanning",
-            //     buttonPositive:"OK"
-            // }
         );
 
         const bluetoothConnectPermissions = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
-            // {
-            //     title: "Connect Permission",
-            //     message: "App requires bluetooth connecting",
-            //     buttonPositive:"OK"
-            // }
         );
 
         const bluetoothFineLocationPermissions = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            // {
-            //     title: "Fine Location",
-            //     message: "App requires fine location",
-            //     buttonPositive:"OK"
-            // }
         );
         return(
             bluetoothScanPermissions === "granted" &&
@@ -88,16 +73,10 @@ function useBLE(): BluetoothLowEnergyApi{
                 }
             }
 
-            if (device /* more constraints can be put here */) {
+            if (device) {
                 if (!isDuplicateDevice(allDevices.current,device)) {
                     allDevices.current.push(device);
                 }
-                // setAllDevices((prevState)=>{
-                //     if (!isDuplicateDevice(prevState,device)) {
-                //         return [...prevState,device];
-                //     }
-                //     return prevState;
-                // })
             }
         })
     };
@@ -105,10 +84,6 @@ function useBLE(): BluetoothLowEnergyApi{
     const stopScanForPeripherals = () => {
         bleManager.stopDeviceScan();
     };
-
-    const turnOnBluetooth = async ()=>{
-        await bleManager.enable();
-    }
     
     return {
         scanForPeripherals,

@@ -145,10 +145,6 @@ export default function CameraHome() {
         const recievedData2 = await response2.json();
         dispatch(setMandatoryCatalogs(recievedData2));
 
-        // if (router.canGoBack()) {
-        //       router.back();
-        // }
-
         setIsSuccess(true)
         setIsLoading(false)
     };

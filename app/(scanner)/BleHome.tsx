@@ -193,7 +193,6 @@ export default function BleHome() {
                   </>
 
             }
-            {/* {allDevices.current.map((device) => device.serviceUUIDs?.map((current_uuid,i) => <Text key={i}>{current_uuid}</Text> ) )} */}
           </View>
         }
       </ScrollView>

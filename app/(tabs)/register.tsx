@@ -6,7 +6,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { KeyboardAvoidingView, ScrollView, StyleSheet } from 'react-native';
 
 
-export default function HomeScreen() {
+export default function Register() {
   const isFocused = useIsFocused();
   return (isFocused &&
     <KeyboardAvoidingView behavior='padding' className='bg-custom-background min-w-full min-h-full'>

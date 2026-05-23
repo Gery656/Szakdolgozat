@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 
 
-export default function HomeScreen() {
+export default function LoadingScreen() {
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
 

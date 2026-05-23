@@ -16,7 +16,6 @@ export default function ChosenSignUpMethodScreen(){
             <PageTitle title="Jelentkezés" backButton={true}></PageTitle>
 
             {method==="code" && <SignUpCodeSubmitForm />}
-            {/* {mode==="qr" && <SignUpQrCodeSubmitForm />} */}
 
             {method==="bluetooth" && <SignUpBluetoothSignalsSubmitForm />}
             

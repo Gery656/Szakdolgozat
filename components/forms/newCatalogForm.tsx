@@ -38,6 +38,122 @@ export default function NewCatalogForm() {
         return await Location.getCurrentPositionAsync({});
     }
 
+    async function newCatalogOnPress() {
+
+        setNameError([]);
+        setLengthInMinError([]);
+        setBluetooth_device_idError([]);
+        setLocationError([]);
+
+        setIsLoading(true);
+
+        let location = null;
+        if (isGPSNeeded) {
+            try {
+                location = await getCurrentLocation();
+            } catch (error) {
+                setLocationError(["Helymeghatározás ki van kapcsolva!"]);
+                setIsLoading(false);
+                return
+            }
+
+            if (!location) {
+                setIsLoading(false);
+                return
+            }
+        }
+
+        let response = null;
+        try {
+            response = await fetch(apiURL + "/events/" + event_id + "/catalogs/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify({
+                    name: name,
+                    lengthInMin: lengthInMin,
+                    type: catalogType,
+                    isGPSNeeded: isGPSNeeded,
+                    ...(bluetooth_device_id !== "" ? { bluetooth_device_id: bluetooth_device_id } : {}),
+                    latitude: location?.coords.latitude ?? 0,
+                    longitude: location?.coords.longitude ?? 0
+                })
+            });
+        } catch (ex) {
+            setLocationError([...locationError, "Próbálkozzon újra!"])
+            setIsLoading(false);
+            return;
+        }
+        const body = await response.json();
+
+        if (!response.ok) {
+            if (response.status === 422) {
+                if (body.errors.name) {
+                    setNameError([...body.errors.name]);
+                }
+                if (body.errors.lengthInMin) {
+                    setLengthInMinError([...body.errors.lengthInMin]);
+                }
+                if (body.errors.isGPSNeeded) {
+                    setLocationError([...locationError, ...body.errors.isGPSNeeded]);
+                }
+                if (body.errors.bluetooth_device_id) {
+                    setBluetooth_device_idError([...body.errors.bluetooth_device_id]);
+                }
+                if (body.errors.latitude) {
+                    setLocationError([...locationError, ...body.errors.isGPSNeeded]);
+                }
+                if (body.errors.longitude) {
+                    setLocationError([...locationError, ...body.errors.isGPSNeeded]);
+                }
+            }
+            if (response.status === 404) {
+                setLocationError([...locationError, ...body.error])
+            }
+            if (response.status === 401) {
+                if (router.canDismiss()) {
+                    router.dismissAll()
+                }
+                router.dismissTo('/');
+            }
+
+            setIsLoading(false);
+            return;
+        }
+
+        const response2 = await fetch(apiURL + "/resources", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        if (!response2.ok) {
+            if (response2.status === 401) {
+                if (router.canDismiss()) {
+                    router.dismissAll()
+                }
+                router.dismissTo('/');
+            }
+
+            setIsLoading(false);
+            return;
+        }
+
+        const recievedData = await response2.json();
+        dispatch(setUser(recievedData.user));
+        dispatch(setEvents(recievedData.events));
+        dispatch(setSharedCatalog(body.id))
+        setIsLoading(false);
+
+        router.push("/OnSuccessfulCatalogCreation");
+    }
+
     return (
         <View>
             <View className="bg-[#F2EAD3] mt-10 w-11/12 h-fit py-3 px-3 rounded-2xl mx-auto shadow">
@@ -55,7 +171,7 @@ export default function NewCatalogForm() {
                     <Text className='my-auto text-lg'>perc</Text>
                 </View>
                 {lengthInMinError.length !== 0 && lengthInMinError.map((error, i) => <Text key={i} className="text-red-500">{error}</Text>)}
-                
+
                 {Platform.OS === 'android'
                     ? <Text className="text-lg mt-2">Ellenőrzés típusa:</Text>
                     : <View className='flex flex-row justify-between px-5'>
@@ -84,7 +200,7 @@ export default function NewCatalogForm() {
 
                         <Picker.Item label="Kód" value="code" />
                         <Picker.Item label="QR" value="qr" />
-                        {user.bluetooth_devices.length!==0 && <Picker.Item label="Bluetooth" value="bluetooth" />}
+                        {user.bluetooth_devices.length !== 0 && <Picker.Item label="Bluetooth" value="bluetooth" />}
                         {Platform.OS === "android" && <Picker.Item label="NFC" value="nfc" />}
                     </Picker>
                     {/* the second Picker for IOS */}
@@ -147,120 +263,7 @@ export default function NewCatalogForm() {
                     </View>
                     :
                     <Pressable
-                        onPress={async () => {
-                            setNameError([]);
-                            setLengthInMinError([]);
-                            setBluetooth_device_idError([]);
-                            setLocationError([]);
-
-                            setIsLoading(true);
-
-                            let location = null;
-                            if (isGPSNeeded) {
-                                try {
-                                    location = await getCurrentLocation();
-                                } catch (error) {
-                                    setLocationError(["Helymeghatározás ki van kapcsolva!"]);
-                                    setIsLoading(false);
-                                    return
-                                }
-
-                                if (!location) {
-                                    setIsLoading(false);
-                                    return
-                                }
-                            }
-
-                            let response = null;
-                            try {
-                                response = await fetch(apiURL + "/events/" + event_id + "/catalogs/create", {
-                                    method: "POST",
-                                    headers: {
-                                        "Content-Type": "application/json",
-                                        "Accept": "application/json",
-                                        "Authorization": "Bearer " + token
-                                    },
-                                    body: JSON.stringify({
-                                        name: name,
-                                        lengthInMin: lengthInMin,
-                                        type: catalogType,
-                                        isGPSNeeded: isGPSNeeded,
-                                        ...(bluetooth_device_id !== "" ? { bluetooth_device_id: bluetooth_device_id } : {}),
-                                        latitude: location?.coords.latitude ?? 0,
-                                        longitude: location?.coords.longitude ?? 0
-                                    })
-                                });
-                            } catch (ex) {
-                                setLocationError([...locationError, "Próbálkozzon újra!"])
-                                setIsLoading(false);
-                                return;
-                            }
-                            const body = await response.json();
-
-                            if (!response.ok) {
-                                if (response.status === 422) {
-                                    if (body.errors.name) {
-                                        setNameError([...body.errors.name]);
-                                    }
-                                    if (body.errors.lengthInMin) {
-                                        setLengthInMinError([...body.errors.lengthInMin]);
-                                    }
-                                    if (body.errors.isGPSNeeded) {
-                                        setLocationError([...locationError, ...body.errors.isGPSNeeded]);
-                                    }
-                                    if (body.errors.bluetooth_device_id) {
-                                        setBluetooth_device_idError([...body.errors.bluetooth_device_id]);
-                                    }
-                                    if (body.errors.latitude) {
-                                        setLocationError([...locationError, ...body.errors.isGPSNeeded]);
-                                    }
-                                    if (body.errors.longitude) {
-                                        setLocationError([...locationError, ...body.errors.isGPSNeeded]);
-                                    }
-                                }
-                                if (response.status === 404) {
-                                    setLocationError([...locationError, ...body.error])
-                                }
-                                if (response.status === 401) {
-                                    if (router.canDismiss()) {
-                                        router.dismissAll()
-                                    }
-                                    router.dismissTo('/');
-                                }
-
-                                setIsLoading(false);
-                                return;
-                            }
-
-                            const response2 = await fetch(apiURL + "/resources", {
-                                method: "GET",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    "Accept": "application/json",
-                                    "Authorization": "Bearer " + token
-                                }
-                            });
-
-                            if (!response2.ok) {
-                                if (response2.status === 401) {
-                                    if (router.canDismiss()) {
-                                        router.dismissAll()
-                                    }
-                                    router.dismissTo('/');
-                                }
-
-                                setIsLoading(false);
-                                return;
-                            }
-
-                            const recievedData = await response2.json();
-                            dispatch(setUser(recievedData.user));
-                            dispatch(setEvents(recievedData.events));
-                            dispatch(setSharedCatalog(body.id))
-                            setIsLoading(false);
-
-                            router.push("/OnSuccessfulCatalogCreation");
-                        }}
+                        onPress={newCatalogOnPress}
                         className="w-full h-16 bg-custom-secondary mt-2 rounded-lg">
                         <Text className="text-[#F5F5F5] m-auto">Indítás</Text>
                     </Pressable>

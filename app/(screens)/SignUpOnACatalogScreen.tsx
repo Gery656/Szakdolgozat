@@ -51,8 +51,6 @@ export default function SignUpOnACatalogScreen() {
                 
                 <MandatoryCatalogsList />
 
-                {/* <SignUpModeSelectForm /> */}
-
             <Pressable
             className="w-11/12 mx-auto h-16 bg-custom-secondary mt-10 rounded-lg"
             onPress={()=>{router.push("/ManualSignUpScreen")}}>

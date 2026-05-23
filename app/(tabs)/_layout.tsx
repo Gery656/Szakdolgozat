@@ -23,10 +23,6 @@ export default function TabLayout() {
           name="login"
           options={{ headerShown: false, animation: "slide_from_right" }}
         />
-        <Stack.Screen
-          name="camera"
-          options={{ headerShown: false }}
-        />
       </Stack>
       <RegisterLoginSwitch></RegisterLoginSwitch>
     </>
