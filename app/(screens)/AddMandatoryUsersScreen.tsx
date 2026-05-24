@@ -12,6 +12,7 @@ export default function AddMandatoryUsersScreen(){
         <KeyboardAvoidingView behavior="padding" className="min-w-full min-h-full">
             <ScrollView>
                 <PageTitle title="Résztvevők" backButton={true}/>
+                
                 {addMethod==="email" && <EmailAddMandatoryUsersToEventForm />}
                 {addMethod==="identifier" && <IdentifierAddMandatoryUsersToEventForm />}
 
