@@ -56,7 +56,6 @@ export default function NFCScanScreen() {
     let data = "";
     try {
       NfcManager.start()
-      // register for the NFC tag with NDEF in it
       if (Platform.OS === "ios") { //IOS
         const tag: any = await listenToNfcEventOnce()
         const gotBytes: number[] = [];
@@ -67,7 +66,6 @@ export default function NFCScanScreen() {
       }
       else { //Android
         await NfcManager.requestTechnology(NfcTech.Ndef);
-        // the resolved tag object will contain `ndefMessage` property
         const tag = await NfcManager.getTag();
         const gotBytes: number[] = [];
         tag?.ndefMessage[0].payload.forEach(num => gotBytes.push(num))
