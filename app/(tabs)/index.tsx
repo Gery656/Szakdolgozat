@@ -3,7 +3,7 @@ import { apiURL, getValueFor, reset, save, setEvents, setToken, setUser } from '
 import { useIsFocused } from '@react-navigation/native';
 import { router } from 'expo-router';
 import { useEffect } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 
@@ -44,8 +44,6 @@ export default function LoadingScreen() {
 
       <View className="m-auto rounded-lg">
         <ActivityIndicator className="m-auto scale-150" size={"large"} ></ActivityIndicator>
-        <Text>Export: {apiURL}</Text>
-        <Text>ENV: {process.env.EXPO_PUBLIC_API_URL}</Text>
       </View>
 
     </SafeAreaView>
