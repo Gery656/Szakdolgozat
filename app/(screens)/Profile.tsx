@@ -18,7 +18,7 @@ export default function Profile(){
                 <TouchableOpacity
                     onPress={()=>{Linking.openURL('https://icons8.com/')}}
                     className="mx-auto mt-20">
-                    <Text className="underline text-blue-600">Minden ikon az Icon8-tól származik</Text>
+                    <Text className="underline text-blue-600">Minden ikon az Icons8-tól származik</Text>
                 </TouchableOpacity>
             </ScrollView>
         </SafeAreaView>
